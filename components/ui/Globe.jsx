@@ -28,7 +28,7 @@ export function Globe({
     showAtmosphere: true,
     atmosphereAltitude: 0.1,
     polygonColor: "rgba(255,255,255,0.7)",
-    globeColor: "#1d072e",
+    globeColor: "#000000",
     emissive: "#000000",
     emissiveIntensity: 0.1,
     shininess: 0.9,

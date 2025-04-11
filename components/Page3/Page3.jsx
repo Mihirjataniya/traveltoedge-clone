@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import Image from "next/image"
 import { MapPin, ArrowUpRight, MoveRight, MoveLeft } from "lucide-react"
 import { motion, useInView, useAnimation } from "framer-motion"
+import Link from 'next/link'
 
 const Page3 = () => {
     const tourPackages = [
@@ -54,10 +55,11 @@ const Page3 = () => {
     }
 
     return (
-        <div className="manual-height md:max-h-[800px] my-4 flex items-center w-full">
-            <div className="w-full">
-                <div className="mb-6">
-                    <h2 className="text-3xl font-bold text-[#004B67]">Discover your Dream Destination</h2>
+        <div className=" md:max-h-[800px] my-16 flex items-center w-full">
+            <div className="w-full ">
+                <div className="mb-6 flex items-center justify-between">
+                    <h2 className="text-xl md:text-3xl  font-bold text-[#004B67]">Discover your Dream Destination</h2>
+                    <Link className='bg-[#03435E] text-white text-nowrap px-3 md:px-6 py-2 rounded-xl' href={'/tours'} >See all</Link>
                 </div>
 
                 <div className="overflow-hidden">

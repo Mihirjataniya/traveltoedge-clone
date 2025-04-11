@@ -136,3 +136,36 @@
         transform: scale(1);
     }
 }
+
+.photo-rail-container {
+    position: absolute;
+    top: -80px; /* adjust as needed */
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .photo-rail {
+    display: flex;
+    gap: 1rem;
+    padding: 0 1.5rem;
+    animation: slideLeft 100s linear infinite;
+    width: max-content;
+  }
+  
+  .photo-rail img {
+    height: 9rem; /* Tailwind's h-36 = 144px */
+    border-radius: 0.5rem; /* Tailwind's rounded-lg */
+    object-fit: cover;
+  }
+  
+  /* Animation */
+  @keyframes slideLeft {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  

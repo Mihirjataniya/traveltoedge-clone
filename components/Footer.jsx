@@ -1,5 +1,4 @@
-// import { FaInstagram, FaFacebookF, FaXTwitter, FaYoutube } from "react-icons/fa6";
-
+import Image from "next/image";
 import FabookIcon from "./icons/FabookIcon";
 import InstagramIcon from "./icons/InstagramIcon";
 import LinkedinIcon from "./icons/LinkedinIcon";
@@ -7,9 +6,55 @@ import TwitterIcon from "./icons/TwitterIcon";
 import YoutubeIcon from "./icons/YoutubeIcon";
 
 const Footer = () => {
+  const imageMap = [
+    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
+    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
+    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
+    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
+    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
+    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
+    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
+    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
+    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
+    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
+    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
+    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
+    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
+    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
+    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
+    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
+    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
+    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
+    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
+    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
+  ];
   return (
-    <footer className="bg-[#024262] text-white py-12 px-6 md:px-16 mt-10">
-      <div className="flex flex-col lg:flex-row gap-12 justify-between lg:gap-20">
+    <footer className="relative bg-[#024262] text-white pt-36 pb-12 px-6 md:px-16 mt-36">
+      {/* 📸 Photo Rail */}
+      {/* 📸 Photo Rail */}
+      <div className="photo-rail-container">
+        <div className="photo-rail">
+          {[...Array(2)].flatMap((_, loopIndex) =>
+            imageMap.map((item, imgIndex) => (
+              <div key={`image-${loopIndex}-${imgIndex}`} className="image-wrapper">
+                <Image
+                  src={item.src}
+                  alt={`photo-${loopIndex}-${imgIndex}`}
+                  width={200}
+                  height={200}
+                  className="rounded-xl object-cover"
+                />
+              </div>
+            ))
+          )}
+
+        </div>
+      </div>
+
+
+
+      {/* 💬 Footer Content */}
+      <div className="flex flex-col lg:flex-row gap-12 md:items-center justify-between lg:gap-20">
         {/* Left Section */}
         <div className="hidden lg:flex flex-col text-3xl font-bold leading-tight text-center lg:text-left">
           <p>LET</p>
@@ -23,14 +68,13 @@ const Footer = () => {
           <p>LET YOUR</p>
           <p>TRAVELING DREAM</p>
           <p>COME TRUE</p>
-          <p>TRUE</p>
         </div>
 
         {/* Middle Sections */}
         <div className="flex flex-col  sm:flex-row gap-12">
           <div>
             <h3 className="font-semibold mb-4 md:text-center text-lg">Our Activities</h3>
-            <ul className="space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left">
+            <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left">
               <li>Tours</li>
               <li>Adventures</li>
               <li>Sight Seeing</li>
@@ -42,7 +86,7 @@ const Footer = () => {
 
           <div>
             <h3 className="font-semibold mb-4 sm:text-left text-lg">Quick Links</h3>
-            <ul className="space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left">
+            <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left">
               <li>Tour Packages</li>
               <li>Get Connected</li>
               <li>Our Story</li>
@@ -74,6 +118,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      <p className="mt-5 text-sm text-nowrap text-center border-t-1 border-gray-500 py-4">
+        © {new Date().getFullYear()} Travel To Edge. All rights reserved.
+      </p>
     </footer>
   );
 };

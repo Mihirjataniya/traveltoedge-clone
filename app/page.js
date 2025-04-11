@@ -18,12 +18,12 @@ export default function Home() {
       <Page2 />
       <Page3 />
       <Page4 />
-      <div className="hidden md:block">
+      {/* <div className="hidden md:block">
         <CircularGallery bend={3} textColor="#ffffff" borderRadius={0.05} />
       </div>
       <div className="md:hidden block">
         <GalleryForPhone />
-      </div>
+      </div> */}
     </div>
   );
 }

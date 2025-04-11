@@ -47,10 +47,10 @@ const Page4 = () => {
         },
     ];
     return (
-        <div className="manual-height my-4 flex items-center w-full">
+        <div className="my-16 flex items-center w-full">
             <div className="w-full">
                 <div className="mb-6">
-                    <h2 className="text-3xl font-bold text-[#004B67]">Why Travelers Love Us</h2>
+                    <h2 className="text-xl md:text-3xl font-bold text-[#004B67]">Why Travelers Love Us</h2>
                 </div>
                 <div className="rounded-md px-6 flex flex-col antialiased items-center justify-center relative overflow-hidden">
                     <InfiniteMovingCards

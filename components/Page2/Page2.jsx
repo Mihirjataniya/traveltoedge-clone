@@ -48,7 +48,7 @@ const Page2 = () => {
     }, [isInView, mainControls]);
 
     return (
-        <div ref={sectionRef} className="manual-height md:max-h-[800px] flex items-center mt-14 md:mt-28 w-full">
+        <div ref={sectionRef} className=" md:max-h-[800px] flex items-center my-14 md:mt-28 w-full">
             <div className="w-full ">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-10">
 
@@ -69,7 +69,7 @@ const Page2 = () => {
                         animate={mainControls}
                         variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5 } } }}
                     >
-                        <h1 className="text-3xl font-bold mb-6">{displayedHeading}</h1>
+                        <h1 className="text-xl md:text-3xl font-bold mb-6">{displayedHeading}</h1>
                         <p className="text-md leading-relaxed">{displayedParagraph}</p>
 
                         {/* Stats */}
