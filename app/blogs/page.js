@@ -96,7 +96,7 @@ export default function TravelBlog() {
 
     return (
         <div className="w-full min-h-screen mt-16">
-            <div className="container mx-auto px-4 py-8 sm:py-12">
+            <div className="container mx-auto py-8 sm:py-12">
                 {/* Section Header */}
                 <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <h2 className="text-xl sm:text-2xl text-[#03435e] font-semibold">

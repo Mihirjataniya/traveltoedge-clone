@@ -106,7 +106,7 @@ export default function FAQSection() {
     const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
     return (
-        <div className='w-full min-h-screen mt-2 md:mt-10'>
+        <div className='w-full min-h-screen mt-2 flex items-center justify-center'>
             <div className=" text-[#03435e] px-4 md:px-16 py-8 md:py-16">
                 <div className="flex flex-col gap-4 my-5 md:my-8 py-5">
                     <h2 className="text-3xl md:text-5xl font-bold">Questions?</h2>
