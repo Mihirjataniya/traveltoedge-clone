@@ -64,7 +64,7 @@ const Footer = () => {
           <p>COME</p>
           <p>TRUE</p>
         </div>
-        <div className="flex-col lg:hidden text-3xl font-bold leading-tight lg:text-left">
+        <div className="flex-col lg:hidden text-2xl font-bold leading-tight lg:text-left">
           <p>LET YOUR</p>
           <p>TRAVELING DREAM</p>
           <p>COME TRUE</p>
@@ -73,8 +73,8 @@ const Footer = () => {
         {/* Middle Sections */}
         <div className="flex flex-col  sm:flex-row gap-12">
           <div>
-            <h3 className="font-semibold mb-4 md:text-center text-lg">Our Activities</h3>
-            <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left">
+            <h3 className="font-semibold mb-4 md:text-center text-md md:text-lg">Our Activities</h3>
+            <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left text-sm md:text-lg">
               <li>Tours</li>
               <li>Adventures</li>
               <li>Sight Seeing</li>
@@ -85,8 +85,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-4 sm:text-left text-lg">Quick Links</h3>
-            <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left">
+            <h3 className="font-semibold mb-4 sm:text-left text-md md:text-lg">Quick Links</h3>
+            <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left text-sm md:text-lg">
               <li>Tour Packages</li>
               <li>Get Connected</li>
               <li>Our Story</li>
@@ -98,9 +98,9 @@ const Footer = () => {
         {/* Right Section */}
         <div className="space-y-8 lg:text-left">
           <div>
-            <h3 className="font-semibold mb-2">Follow us on</h3>
-            <div className="flex items-center lg:justify-start gap-4 text-white text-xl">
-              <FabookIcon />
+            <h3 className="font-semibold mb-2 text-md md:text-lg">Follow us on</h3>
+            <div className="flex items-center lg:justify-start gap-4 text-white ">
+              <FabookIcon  />
               <InstagramIcon />
               <TwitterIcon />
               <LinkedinIcon />
@@ -108,8 +108,8 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Contact</h3>
-            <p className="text-white/90 text-sm leading-7">
+            <h3 className="font-semibold text-md md:text-lg mb-2">Contact</h3>
+            <p className="text-white/90 text-sm md:text-lg leading-8">
               123 Wanderlust Street,<br />
               Adventure City, Travelland 56789,<br />
               +1 (123) 456-7890<br />

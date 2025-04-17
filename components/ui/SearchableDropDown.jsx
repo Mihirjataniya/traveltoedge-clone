@@ -26,7 +26,7 @@ export default function SearchableDropdown({ value, onChange, options }) {
     <div className="relative w-full" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full flex items-center justify-between bg-white text-gray-300 border-0 border-b-2 border-[#03435e] cursor-pointer py-2 italic"
+        className={`w-full flex items-center justify-between  bg-white ${value ? "text-[#03435e]" : "text-gray-300"}  text-xs sm:text-sm border-0 border-b-2 border-[#03435e] cursor-pointer py-2 italic`}
       >
         <span>{value || "Select Location"}</span>
         <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />

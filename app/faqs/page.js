@@ -5,91 +5,95 @@ const faqsData = {
     General: [
         {
             q: "What types of travel experiences do you offer?",
-            a: "We offer everything from leisure tours, adventure travel, honeymoon trips, spiritual journeys, luxury getaways to offbeat explorations—both domestic and international.",
+            a: "From laid-back getaways and adventure trips to wellness retreats, honeymoons, family vacations, staycations, and spiritual journeys - we design experiences both within India and abroad.",
         },
         {
             q: "Can I book only flight or hotel services through you?",
-            a: "Yes! While we specialize in full travel packages, you can also book individual services like flights, hotels, transportation, and activities through us.",
+            a: "Absolutely! While we love curating full trips, you can book flights, hotels, airport transfers, or specific activities individually too.",
         },
         {
             q: "How far in advance should I book my trip?",
-            a: "We recommend booking at least 30–60 days in advance to get the best rates and secure your preferred itinerary. For international trips, earlier is even better.",
+            a: "Ideally, 30 - 60 days in advance. International trips or peak season plans? Earlier is better for the best rates and smoother prep.",
         },
         {
             q: "Do you offer last-minute bookings?",
-            a: "Yes, we do assist with last-minute trips based on availability. However, prices may vary and options could be limited.",
+            a: "Yes, if there’s availability! We’ll try our best to create something great, but options may be limited and prices can vary.",
         },
         {
             q: "Can I travel solo through Travel To Edge?",
-            a: "Absolutely. We craft amazing solo travel experiences, ensuring comfort, safety, and meaningful adventures — all tailored for solo explorers.",
+            a: "100%! We create solo-friendly trips with comfort, safety, and local experiences that feel personal and empowering.",
         },
     ],
     "Customization & Payments": [
         {
-            q: "Can I create my own travel plan with you?",
-            a: "Yes! We specialize in crafting custom itineraries based on your interests, travel style, and budget. Just tell us your vision — we’ll bring it to life.",
+            q: "Can I create my own itinerary?",
+            a: "Totally! Just tell us your travel mood, vibe, or goals - we’ll turn that into a blisfully memorable journey.",
         },
         {
-            q: "What payment methods do you accept?",
-            a: "We accept UPI, bank transfers, and offline payment options. You'll receive detailed instructions once your trip details are finalized.",
+            q: "What are your payment options?",
+            a: "We accept UPI, bank transfers, and select offline methods. Full payment is required once your trip is finalized.",
         },
         {
-            q: "Do you charge a planning or consultation fee?",
-            a: "No, our consultation and initial planning discussions are completely free. You only pay once you finalize your package.",
+            q: "Any hidden charges?",
+            a: "Nope! We believe in full transparency. You’ll know what you're paying for - frank and clear.",
         },
         {
             q: "Do you offer installment or partial payments?",
-            a: "Currently, we only accept full payments once your package is confirmed. We do not offer installment options at this time.",
+            a: "Currently, we accept full payments only. EMI options are in the pipeline - stay tuned!",
         },
     ],
     "International Travel": [
         {
             q: "Do you provide assistance with visas?",
-            a: "Yes. We help you gather the required documents and assist with the application process. For certain countries, we also offer visa-on-arrival information.",
+            a: "Yes ! We guide you through the entire process, including document prep, applications, and tips for smooth approval.",
         },
         {
             q: "Do you offer currency exchange or guidance?",
-            a: "While we don't provide exchange directly, we guide you to trusted providers and offer currency recommendations before departure.",
+            a: "While we don’t exchange currency ourselves, we’ll direct you to trusted services and share tips on rates and how much to carry.",
         },
         {
-            q: "Will I get a guide for international tours?",
-            a: "Yes, most of our international group tours include experienced local guides. For private/custom tours, a guide can be arranged on request.",
+            q: "Will I have a guide during trips?",
+            a: " Most group tours include a local guide. For private trips, we can arrange one on request.",
         },
     ],
     "Safety & Support": [
         {
             q: "Is travel insurance mandatory?",
-            a: "For international trips, yes — we highly recommend travel insurance. For domestic travel, it's optional but advisable.",
+            a: "For international trips, yes. For domestic, it’s optional but highly recommended. We can help you get one.",
         },
         {
             q: "What if my flight gets canceled or delayed?",
             a: "Our support team will help reschedule flights or manage alternate transport as per airline policy and availability.",
         },
         {
-            q: "Is there emergency support during travel?",
-            a: "Yes, our team is available 24/7 via phone or WhatsApp to assist you in emergencies or urgent changes.",
+            q: "What kind of medical support is available?",
+            a: "We include access to local emergency numbers, nearest hospitals, and basic first-aid support. For serious concerns, we recommend carrying your health documents and insurance.",
         },
         {
             q: "Are your tours safe for families and children?",
-            a: "Definitely! We offer family-friendly tours with safe accommodations, kid-friendly activities, and guides trained to handle all age groups.",
+            a: "Absolutely. We handpick child-friendly hotels, fun and safe activities, and destinations suited for all age groups.",
+        },
+        {
+            q: "How do you ensure food and hygiene standards?",
+            a: "We partner only with trusted hotels and vendors that meet cleanliness, hygiene, and food safety norms. Plus, we offer food recommendations based on your preferences.",
         },
     ],
     Miscellaneous: [
         {
-            q: "Where is your office located?",
-            a: "We’re based in [Your City], but we operate online too — so you can plan your entire trip from the comfort of your home.",
+            q: "Where are you located?",
+            a: "We’re based in Delhi, but everything can be done online. No office visits needed unless you want to drop by and allow us your story over a cup of tea.",
         },
         {
-            q: "How do I know which destination is right for me?",
-            a: "Our travel experts help you choose the perfect destination based on your interests, travel goals, season, and budget.",
+            q: "Not sure where to go - can you help?",
+            a: "Of course ! Tell us your vibe (beach, mountains, heritage, etc.), budget, and dates - we’ll suggest perfect destinations",
         },
         {
-            q: "Can I follow you on social media for travel ideas?",
-            a: "Yes! We regularly share travel tips, destination features, and client stories. Follow us on Instagram, Facebook, and YouTube.",
+            q: " Do you offer travel gift cards or surprise trip planning?",
+            a: "Yes! We can help you plan a surprise trip for someone or provide digital gift cards for special occasions.",
         },
         {
-            q: "Can I get a detailed cost breakdown before booking?",
-            a: "Of course. We provide a complete price breakdown covering accommodation, travel, experiences, and any optional inclusions before you confirm your booking.",
+            q: "Can I follow you on social media?",
+            a: "Yes. You’ll get a clear breakdown - covering stay, travel, experiences, inclusions, and optional extras - before confirming anything.",
         },
     ],
 };

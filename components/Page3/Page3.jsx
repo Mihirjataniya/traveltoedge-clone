@@ -58,7 +58,7 @@ const Page3 = () => {
         <div className=" md:max-h-[800px] my-16 flex items-center w-full">
             <div className="w-full ">
                 <div className="mb-6 flex items-center justify-between">
-                    <h2 className="text-xl md:text-3xl  font-bold text-[#004B67]">Discover your Dream Destination</h2>
+                    <h2 className="text-xl md:text-3xl font-bold text-[#004B67]">Discover your Dream Destination</h2>
                     <Link className='bg-[#03435E] text-white text-nowrap px-3 md:px-6 py-2 rounded-xl' href={'/tours'} >See all</Link>
                 </div>
 

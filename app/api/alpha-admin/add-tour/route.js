@@ -6,11 +6,11 @@ import connectToDatabase from "@/lib/db";
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
-
+  console.log("*****************************Session************************",session);
+  
   if (!session || session.user.name !== process.env.ADMIN_USER) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  
 
   try {
     await connectToDatabase();
@@ -25,6 +25,7 @@ export async function POST(req) {
       image,
       category,
       itinerary,
+      isTopTour
     } = body;
 
     if (!title || !location || !duration || !price) {
@@ -43,6 +44,7 @@ export async function POST(req) {
       image,
       category,
       itinerary,
+      isTopTour
     });
 
     return NextResponse.json({ success: true, data: newTour });

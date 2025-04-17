@@ -61,14 +61,15 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 max-w-[1600px] mx-auto z-50 w-full py-2 px-4 md:px-8 lg:px-12 bg-white flex flex-col justify-center h-20 md:h-20 lg:h-20">
-        <div className="flex items-center justify-between w-full">
-          <Link href={'/'}> <Image
+      <nav className="fixed top-0 max-w-[1600px] mx-auto z-50 w-full py-2 px-4 md:px-8 lg:px-12 bg-white flex flex-col justify-center h-20 md:h-20 lg:h-20 ">
+        <div className="flex items-center outline-none justify-between w-full">
+          <Link href={'/'}>
+           <Image
             src="/LOGO.png"
             alt="Travel To Edge - Explore the World"
             width={120}
             height={50}
-            className="w-24 md:w-28 lg:w-32 h-auto"
+            className="w-24 md:w-28 outline-none lg:w-32 h-auto"
             priority
           />
           </Link>

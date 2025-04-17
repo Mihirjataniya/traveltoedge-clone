@@ -70,7 +70,7 @@ const Page2 = () => {
                         variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5 } } }}
                     >
                         <h1 className="text-xl md:text-3xl font-bold mb-6">{displayedHeading}</h1>
-                        <p className="text-md leading-relaxed">{displayedParagraph}</p>
+                        <p className="text-sm md:text-md leading-relaxed">{displayedParagraph}</p>
 
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-3 md:gap-6 mt-6">

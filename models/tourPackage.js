@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-
-const tourPackagesSchema = new mongoose.Schema({
+const tourPackagesSchema = new mongoose.Schema(
+  {
     title: { type: String, required: true },
     location: { type: String, required: true },
     duration: { type: String, required: true },
@@ -10,7 +10,9 @@ const tourPackagesSchema = new mongoose.Schema({
     image: { type: String, required: true },
     category: { type: String },
     itinerary: { type: String },
-}, { timestamps: true });
-
+    isTopTour: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
 
 export default mongoose.models.TourPackage || mongoose.model("TourPackage", tourPackagesSchema);
