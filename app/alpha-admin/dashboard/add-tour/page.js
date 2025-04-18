@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
-
+import { useRouter } from "next/navigation";
 const AddTourPackage = () => {
     const [formData, setFormData] = useState({
         title: "",
@@ -16,7 +16,7 @@ const AddTourPackage = () => {
         isTopTour: false,
     });
 
-
+    const router = useRouter()
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
@@ -75,6 +75,7 @@ const AddTourPackage = () => {
 
             if (response.data.success) {
                 alert("Tour package added successfully!");
+                router.push('/alpha-admin/dashboard/edit-tour')
             } else {
                 alert(`Error: ${response.data.error}`);
             }

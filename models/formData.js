@@ -10,14 +10,12 @@ const formDataSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      match: [/^\d{10}$/, "Phone number must be 10 digits"],
     },
     email: {
       type: String,
       required: true,
       lowercase: true,
       trim: true,
-      match: [/\S+@\S+\.\S+/, "Please provide a valid email"],
     },
     destination: {
       type: String,
@@ -37,4 +35,4 @@ const formDataSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.FormData || mongoose.model("FormData", formDataSchema);
+export default  mongoose.model("FormData", formDataSchema);

@@ -10,6 +10,20 @@
   },
   "dependencies": {
     "@react-three/drei": "^10.0.6",
+    "@tiptap/extension-blockquote": "^2.11.7",
+    "@tiptap/extension-bold": "^2.11.7",
+    "@tiptap/extension-bullet-list": "^2.11.7",
+    "@tiptap/extension-heading": "^2.11.7",
+    "@tiptap/extension-horizontal-rule": "^2.11.7",
+    "@tiptap/extension-image": "^2.11.7",
+    "@tiptap/extension-italic": "^2.11.7",
+    "@tiptap/extension-link": "^2.11.7",
+    "@tiptap/extension-list-item": "^2.11.7",
+    "@tiptap/extension-ordered-list": "^2.11.7",
+    "@tiptap/extension-text-align": "^2.11.7",
+    "@tiptap/pm": "^2.11.7",
+    "@tiptap/react": "^2.11.7",
+    "@tiptap/starter-kit": "^2.11.7",
     "axios": "^1.8.4",
     "cloudinary": "^2.6.0",
     "clsx": "^2.1.1",
@@ -25,7 +39,8 @@
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.2.0",
     "three": "^0.175.0",
-    "three-globe": "^2.42.3"
+    "three-globe": "^2.42.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

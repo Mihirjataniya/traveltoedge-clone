@@ -11,7 +11,6 @@ export async function GET(req) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   
-
   try {
     await connectToDatabase();
 
@@ -25,8 +24,33 @@ export async function GET(req) {
       }
       return NextResponse.json({ success: true, data: tour });
     } else {
-      const tours = await tourPackage.find();
-      return NextResponse.json({ success: true, data: tours });
+      // Pagination parameters
+      const page = parseInt(searchParams.get("page") || "1", 10);
+      const limit = parseInt(searchParams.get("limit") || "10", 10);
+      const skip = (page - 1) * limit;
+      
+      // Get total count for pagination metadata
+      const totalCount = await tourPackage.countDocuments();
+      const totalPages = Math.ceil(totalCount / limit);
+      
+      // Fetch paginated results
+      const tours = await tourPackage.find()
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: -1 }); // Optional: sort by creation date, newest first
+      
+      return NextResponse.json({ 
+        success: true, 
+        data: tours,
+        pagination: {
+          total: totalCount,
+          page,
+          limit,
+          totalPages,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1
+        }
+      });
     }
   } catch (err) {
     console.error("Error fetching tour(s):", err);

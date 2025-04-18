@@ -13,6 +13,8 @@ const blogSchema = new mongoose.Schema({
   location: { type: String, required: true },
   image: { type: String, required: true },
   author: { type: String, required: true },
+  content: { type: String, required: true },
 });
 
-export default mongoose.models.Blog || mongoose.model("Blog", blogSchema);
+export default mongoose.model("Blog", blogSchema);
+ 

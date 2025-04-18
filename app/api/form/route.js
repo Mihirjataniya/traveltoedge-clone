@@ -8,8 +8,8 @@ export async function POST(req) {
     const body = await req.json();
 
     const { name, phone, email, destination, date, travellers } = body;
-
     if (!name || !phone || !email || !destination || !date || !travellers) {
+      console.log(name, phone, email, destination, date, travellers)
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 

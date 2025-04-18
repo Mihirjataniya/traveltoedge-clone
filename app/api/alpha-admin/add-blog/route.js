@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth"; 
+import { authOptions } from "@/lib/auth";
 import Blog from "@/models/blog";
 import connectToDatabase from "@/lib/db";
 
@@ -10,20 +10,29 @@ export async function POST(req) {
   if (!session || session.user.name !== process.env.ADMIN_USER) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  
+
   try {
-    await connectToDatabase(); 
+    await connectToDatabase();
 
-    const body = await req.json(); 
+    const body = await req.json();
 
-    const { title, excerpt, readTime, category, location, image, author } = body;
+    const { title, excerpt, readTime, category, location, image, author, content } = body;
 
-    if (!title || !excerpt || !readTime || !category || !location || !image || !author) {
+    if (!title || !excerpt || !readTime || !category || !location || !image || !author || !content) {
+
+
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
+    console.log(title);
+    console.log(excerpt)
+    console.log(readTime)
+    console.log(category)
+    console.log(location)
+    console.log(image)
+    console.log(content)
 
     const newBlog = await Blog.create({
       title,
@@ -33,6 +42,7 @@ export async function POST(req) {
       location,
       image,
       author,
+      content
     });
 
     return NextResponse.json({ success: true, data: newBlog });
