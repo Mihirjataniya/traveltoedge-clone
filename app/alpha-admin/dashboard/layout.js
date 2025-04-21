@@ -10,7 +10,7 @@ export default function AdminLayout({children}){
 
     useEffect(() => {
       if (status === 'unauthenticated') {
-        router.push('/alpha-admin/signin');
+        router.push('/alpha-admin/login');
       }
     }, [status, router]);
 

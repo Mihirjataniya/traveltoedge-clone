@@ -11,23 +11,47 @@ export async function GET(req) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   
-
   try {
     await connectToDatabase();
 
     const { searchParams } = new URL(req.url); 
-    const blogId = searchParams.get('id'); 
-
+    const blogId = searchParams.get('id');
+    
     if (blogId) {
-     
+      // If ID is provided, return a single blog post
       const blog = await Blog.findById(blogId);
       if (!blog) {
         return NextResponse.json({ error: "Blog not found" }, { status: 404 });
       }
       return NextResponse.json({ success: true, data: blog });
     } else {
-      const blogs = await Blog.find();
-      return NextResponse.json({ success: true, data: blogs });
+      // Pagination implementation
+      const page = parseInt(searchParams.get('page')) || 1; // Default to page 1
+      const limit = 10; // Fixed limit of 10 items per page
+      const skip = (page - 1) * limit;
+      
+      // Get total count for pagination metadata
+      const totalBlogs = await Blog.countDocuments();
+      const totalPages = Math.ceil(totalBlogs / limit);
+      
+      // Get paginated blogs
+      const blogs = await Blog.find()
+        .sort({ createdAt: -1 }) // Sort by newest first
+        .skip(skip)
+        .limit(limit);
+      
+      return NextResponse.json({ 
+        success: true, 
+        data: blogs,
+        pagination: {
+          totalItems: totalBlogs,
+          totalPages: totalPages,
+          currentPage: page,
+          itemsPerPage: limit,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1
+        }
+      });
     }
   } catch (err) {
     console.error(err);

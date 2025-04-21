@@ -41,7 +41,7 @@ export default function EditTourForm({ params }) {
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const [uploadProgress, setUploadProgress] = useState(0);
-
+    const TOUR_CATEGORIES = ["Islands", "Mountains", "Adventure", "Beach", "City", 'Cultural']
     // Fetch tour data
     useEffect(() => {
         const fetchTour = async () => {
@@ -364,20 +364,16 @@ export default function EditTourForm({ params }) {
                                     Category
                                 </label>
                                 <select
-                                    id="category"
                                     name="category"
-                                    value={formData.category || ""}
+                                    value={formData.category}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                    required
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                                 >
-                                    <option value="">Select category</option>
-                                    <option value="Adventure">Adventure</option>
-                                    <option value="Beach">Beach</option>
-                                    <option value="City">City</option>
-                                    <option value="Cultural">Cultural</option>
-                                    <option value="Mountain">Mountain</option>
-                                    <option value="Wildlife">Wildlife</option>
-                                    <option value="Luxury">Luxury</option>
+                                    <option value="">Select Category</option>
+                                    {TOUR_CATEGORIES.map(category => (
+                                        <option key={category} value={category}>{category}</option>
+                                    ))}
                                 </select>
                             </div>
 

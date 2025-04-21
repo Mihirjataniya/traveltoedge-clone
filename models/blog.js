@@ -16,5 +16,6 @@ const blogSchema = new mongoose.Schema({
   content: { type: String, required: true },
 });
 
-export default mongoose.model("Blog", blogSchema);
+
+export default mongoose.models.Blog || mongoose.model("Blog", blogSchema);
  

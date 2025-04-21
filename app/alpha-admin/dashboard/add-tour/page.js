@@ -29,43 +29,44 @@ const AddTourPackage = () => {
         }));
     };
 
+    const TOUR_CATEGORIES = ["Islands", "Mountains", "Adventure", "Beach", "City", 'Cultural']
 
     const handleUpload = async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
-    
+
         setLoading(true);
-    
-     
+
+
         const sigRes = await fetch("/api/alpha-admin/cloudinary/signature", {
-          method: "POST",
+            method: "POST",
         });
-    
+
         const { signature, timestamp, cloudName, apiKey } = await sigRes.json();
-    
+
         const formData = new FormData();
         formData.append("file", file);
         formData.append("api_key", apiKey);
         formData.append("timestamp", timestamp);
         formData.append("signature", signature);
-    
+
         const uploadRes = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
+            `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+            {
+                method: "POST",
+                body: formData,
+            }
         );
-    
+
         const data = await uploadRes.json();
         const url = data.secure_url;
         setFormData((prev) => ({
             ...prev,
             image: url,
         }));
-        setImagePreview(url);    
+        setImagePreview(url);
         setLoading(false);
-      };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -161,14 +162,18 @@ const AddTourPackage = () => {
 
                 <div className="space-y-1 md:space-y-2">
                     <label htmlFor="category" className="block font-medium text-sm md:text-base">Category</label>
-                    <input
-                        type="text"
-                        id="category"
+                    <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded text-sm md:text-base"
-                    />
+                        required
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    >
+                        <option value="">Select Category</option>
+                        {TOUR_CATEGORIES.map(category => (
+                            <option key={category} value={category}>{category}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="space-y-1 md:space-y-2">
