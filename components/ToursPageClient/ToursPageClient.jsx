@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Search, MapPin, Calendar, Users, ChevronDown, Filter, Loader } from "lucide-react"
+import { Search, MapPin, Calendar, Users, ChevronDown, Filter, Loader, Star, StarHalf } from "lucide-react"
 import axios from "axios"
 
 export default function ToursPageClient({ initialTours, categories }) {
@@ -16,12 +16,12 @@ export default function ToursPageClient({ initialTours, categories }) {
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
-  
+
   // Use refs to track previous filter values to prevent redundant API calls
   const prevFiltersRef = useRef({ searchQuery, selectedCategory, durationFilter, isTopTourOnly })
   const searchTimeoutRef = useRef(null)
   const isInitialRender = useRef(true)
-  
+
   const durationOptions = [
     { label: "Any Duration", value: "" },
     { label: "1-3 Days", value: "1-3" },
@@ -35,7 +35,7 @@ export default function ToursPageClient({ initialTours, categories }) {
     try {
       setIsLoading(true)
       const currentPage = resetPage ? 1 : page
-      
+
       const { data } = await axios.get('/api/get-tours', {
         params: {
           page: currentPage,
@@ -46,14 +46,14 @@ export default function ToursPageClient({ initialTours, categories }) {
           isTopTour: isTopTourOnly ? "true" : ""
         }
       })
-      
+
       if (resetPage) {
         setTours(data.tours)
         setPage(1)
       } else {
         setTours(prev => [...prev, ...data.tours])
       }
-      
+
       setHasMore(data.pagination.hasMore)
     } catch (error) {
       console.error("Error fetching tours:", error)
@@ -61,41 +61,41 @@ export default function ToursPageClient({ initialTours, categories }) {
       setIsLoading(false)
     }
   }, [searchQuery, selectedCategory, durationFilter, isTopTourOnly, page])
-  
+
   // Run only once on initial mount to mark component as ready
   useEffect(() => {
     isInitialRender.current = false
     // No need to fetch again as we already have initialTours
   }, [])
-  
+
   // Handle filter changes with proper dependency tracking
   useEffect(() => {
     // Skip initial render since we already have initialTours
     if (isInitialRender.current) return
-    
+
     // Clear any existing timeout
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current)
     }
-    
+
     // Check if filters have actually changed to prevent redundant calls
     const prevFilters = prevFiltersRef.current
-    const filtersChanged = 
+    const filtersChanged =
       prevFilters.searchQuery !== searchQuery ||
       prevFilters.selectedCategory !== selectedCategory ||
       prevFilters.durationFilter !== durationFilter ||
       prevFilters.isTopTourOnly !== isTopTourOnly
-    
+
     if (filtersChanged) {
       // Update ref with current values
       prevFiltersRef.current = { searchQuery, selectedCategory, durationFilter, isTopTourOnly }
-      
+
       // Debounce filter changes
       searchTimeoutRef.current = setTimeout(() => {
         fetchTours(true) // Reset page when filters change
       }, 400)
     }
-    
+
     // Cleanup timeout on unmount or before next effect run
     return () => {
       if (searchTimeoutRef.current) {
@@ -103,34 +103,34 @@ export default function ToursPageClient({ initialTours, categories }) {
       }
     }
   }, [searchQuery, selectedCategory, durationFilter, isTopTourOnly, fetchTours])
-  
+
   // Separate effect for page changes (load more functionality)
   useEffect(() => {
     // Skip initial render and page 1 (we already have data)
     if (isInitialRender.current || page === 1) return
-    
+
     fetchTours(false)
   }, [page, fetchTours])
-  
+
   const handleCategoryClick = (category) => {
     if (category !== selectedCategory) {
       setSelectedCategory(category)
     }
   }
-  
+
   const loadMore = () => {
     if (!isLoading && hasMore) {
       setPage(prev => prev + 1)
     }
   }
-  
+
   const resetFilters = () => {
     setSelectedCategory("All")
     setSearchQuery("")
     setDurationFilter("")
     setIsTopTourOnly(false)
   }
-  
+
   const toggleFilters = () => {
     setShowFilters(!showFilters)
   }
@@ -202,8 +202,8 @@ export default function ToursPageClient({ initialTours, categories }) {
             </div>
             <div className="flex gap-2 md:gap-4">
               <div className="relative">
-                <button 
-                  onClick={toggleFilters} 
+                <button
+                  onClick={toggleFilters}
                   className="flex items-center gap-2 px-4 py-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-all"
                 >
                   <Calendar className="text-gray-500" size={18} />
@@ -213,8 +213,8 @@ export default function ToursPageClient({ initialTours, categories }) {
                 {showFilters && (
                   <div className="absolute z-20 mt-2 w-48 bg-white rounded-lg shadow-lg p-2 border border-gray-100">
                     {durationOptions.map(option => (
-                      <div 
-                        key={option.value} 
+                      <div
+                        key={option.value}
                         className={`p-2 hover:bg-gray-50 rounded cursor-pointer ${durationFilter === option.value ? 'bg-gray-100' : ''}`}
                         onClick={() => {
                           setDurationFilter(option.value)
@@ -226,10 +226,10 @@ export default function ToursPageClient({ initialTours, categories }) {
                     ))}
                     <div className="border-t border-gray-100 mt-2 pt-2">
                       <label className="flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          checked={isTopTourOnly} 
-                          onChange={() => setIsTopTourOnly(!isTopTourOnly)} 
+                        <input
+                          type="checkbox"
+                          checked={isTopTourOnly}
+                          onChange={() => setIsTopTourOnly(!isTopTourOnly)}
                           className="mr-2"
                         />
                         Top Tours Only
@@ -238,7 +238,7 @@ export default function ToursPageClient({ initialTours, categories }) {
                   </div>
                 )}
               </div>
-              <button 
+              <button
                 onClick={resetFilters}
                 className="flex items-center gap-2 px-4 py-3 bg-[#03435e] text-white rounded-lg hover:bg-blue-700 transition-all"
               >
@@ -260,9 +260,8 @@ export default function ToursPageClient({ initialTours, categories }) {
           {categories.map((category) => (
             <motion.button
               key={category}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === category ? "bg-[#03435e] text-white" : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category ? "bg-[#03435e] text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+                }`}
               onClick={() => handleCategoryClick(category)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -323,7 +322,7 @@ export default function ToursPageClient({ initialTours, categories }) {
             )}
           </motion.div>
         )}
-        
+
         {/* Load More Button */}
         {hasMore && tours.length > 0 && (
           <div className="flex justify-center mt-8">
@@ -392,9 +391,14 @@ function TourCard({ tour }) {
             <div className="flex items-center gap-1">
               <div className="flex">
                 {[...Array(Math.floor(tour.rating))].map((_, i) => (
-                  <span key={i} className="text-yellow-400">★</span>
+                  <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 ))}
-                {tour.rating % 1 > 0 && <span className="text-yellow-400">½</span>}
+                {tour.rating % 1 > 0 && (
+                  <StarHalf className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                )}
+                {[...Array(5 - Math.ceil(tour.rating))].map((_, i) => (
+                  <Star key={i} className="w-3 h-3 text-gray-300" />
+                ))}
               </div>
               <span>{tour.rating.toFixed(1)}</span>
             </div>

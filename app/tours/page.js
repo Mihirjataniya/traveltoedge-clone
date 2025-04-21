@@ -1,5 +1,3 @@
-
-
 import tourPackage from "@/models/tourPackage"; // Mongoose Tour model
 import connectToDatabase from "@/lib/db"; // Database connection
 import ToursPageClient from "@/components/ToursPageClient/ToursPageClient";
