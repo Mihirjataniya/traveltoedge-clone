@@ -62,7 +62,7 @@ export default function TravelBlog({ initialData, categories: initialCategories 
   // Client-side fetch function
   async function fetchBlogs(category = null, page = 1, limit = 6) {
     // Build URL with query parameters
-    const url = new URL('/api/blogs', window.location.origin);
+    const url = new URL('/api/get-blogs', window.location.origin);
     url.searchParams.append('page', page.toString());
     url.searchParams.append('limit', limit.toString());
     if (category && category !== 'All') {

@@ -4,6 +4,8 @@ import InstagramIcon from "./icons/InstagramIcon";
 import LinkedinIcon from "./icons/LinkedinIcon";
 import TwitterIcon from "./icons/TwitterIcon";
 import YoutubeIcon from "./icons/YoutubeIcon";
+import Link from "next/link";
+import { MapPinIcon } from "lucide-react";
 
 const Footer = () => {
   const imageMap = [
@@ -87,10 +89,10 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4 sm:text-left text-md md:text-lg">Quick Links</h3>
             <ul className="md:space-y-2 flex md:flex-col items-center md:items-start flex-wrap gap-4 md:gap-0 text-white/90 text-center sm:text-left text-sm md:text-lg">
-              <li>Tour Packages</li>
-              <li>Get Connected</li>
-              <li>Our Story</li>
-              <li>Travel Tales</li>
+              <Link href={'/tours'}><li> Tour Packages</li></Link>
+              <Link href={'/contact-us'}><li> Get Connected</li></Link>
+              <Link href={'/about-us'}><li>Our Story</li></Link>
+              <Link href={'/blogs'}><li> Travel Tales</li> </Link>
             </ul>
           </div>
         </div>
@@ -100,20 +102,22 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-2 text-md md:text-lg">Follow us on</h3>
             <div className="flex items-center lg:justify-start gap-4 text-white ">
-              <FabookIcon  />
-              <InstagramIcon />
-              <TwitterIcon />
-              <LinkedinIcon />
-              <YoutubeIcon />
+              <Link target="_blank" href={"https://www.facebook.com/Traveltoedge/"}><FabookIcon username={"Traveltoedge"} /></Link>
+              <Link target="_blank" href={"https://www.instagram.com/traveltoedge_/"}><InstagramIcon username={"traveltoedge_"} /></Link>
+              <Link target="_blank" href={""}><TwitterIcon /> </Link>
+              <Link target="_blank" href={""}><LinkedinIcon /></Link>
+              <Link target="_blank" href={""}><YoutubeIcon /></Link>
             </div>
           </div>
           <div>
             <h3 className="font-semibold text-md md:text-lg mb-2">Contact</h3>
             <p className="text-white/90 text-sm md:text-lg leading-8">
-              123 Wanderlust Street,<br />
-              Adventure City, Travelland 56789,<br />
-              +1 (123) 456-7890<br />
-              info@yourtravelagency.com
+            <div className="flex items-center gap-2">
+            <MapPinIcon /> <p>Delhi</p>
+            </div>
+              <a href="tel:+919739240290">Arshan Khan : +91 97392 40290</a> <br />
+              <a href="tel:+918810552497">Kriss Nautiyal : +91 88105 52497</a> <br />
+              traveltoedge@gmail.com
             </p>
           </div>
         </div>

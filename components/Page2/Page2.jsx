@@ -70,7 +70,7 @@ const Page2 = () => {
                         variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5 } } }}
                     >
                         <h1 className="text-xl md:text-3xl font-bold mb-6">{displayedHeading}</h1>
-                        <p className="text-sm md:text-md leading-relaxed">{displayedParagraph}</p>
+                        <p className="text-sm md:text-base leading-relaxed">{displayedParagraph}</p>
 
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-3 md:gap-6 mt-6">
@@ -92,7 +92,7 @@ const Page2 = () => {
                         </div>
 
                         {/* Button */}
-                        <Link href={'/'}>
+                        <Link href={'/tours'}>
                             <motion.button
                                 className="mt-4 px-4 py-2 md:mt-8 md:px-8 md:py-4 bg-[#03435e] text-white rounded-2xl font-semibold hover:bg-white hover:text-[#03435e] transition-transform hover:scale-105 active:scale-95"
                                 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}

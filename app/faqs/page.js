@@ -114,7 +114,7 @@ export default function FAQSection() {
             <div className=" text-[#03435e] px-4 md:px-16 py-8 md:py-16">
                 <div className="flex flex-col gap-4 my-5 md:my-8 py-5">
                     <h2 className="text-3xl md:text-5xl font-bold">Questions?</h2>
-                    <p className="text-gray-400 px-2 text-sm">If you have questions, we have answers for you here. In case we don't, please feel free to reach out to us here contact@traveltoedge.com</p>
+                    <p className="text-gray-400 px-2 text-sm">If you have questions, we have answers for you here. In case we don't, please feel free to reach out to us here traveltoedge@gmail.com</p>
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-10">

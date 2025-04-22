@@ -64,33 +64,37 @@
 
 
         const destinations = [
-            "Manali - Kasol",
-            "Triund",
-            "Serene Chopta",
-            "Jibhi - Jalori",
-            "Kheerganga Trek",
-            "Spiti Valley",
-            "Manali-Jispa",
-            "Bali",
-            "Hampta Pass",
-            "Valley of Flowers",
-            "Pin Parvati",
-            "Kasol Grahan",
-            "Sar Pass",
-            "Bhrigu Lake",
-            "Ladhak",
-            "Meghalaya",
-            "Bhutan",
-            "Vietnam",
-            "Dubai",
-            "Thailand",
+            "Udaipur Kumbhalgarh",
+            "Manal-Kasol with Sissu",
+            "Leh",
+            "Kashmir Winter Paradise",
+            "Jibhi Tirthan",
+            "Mcleodganj Triund",
             "Other",
         ]
         const travelQuotes = [
-            "Travel far, travel wide, travel deep.",
-            "Adventure awaits, go find it.",
-            "Life is short and the world is wide.",
-        ]
+            "Go beyond the map.",
+            "Your trip. Your story. Our magic.",
+            "Because every journey should feel like you.",
+            "Not just travel. Transformation.",
+            "Where your wanderlust meets our why.",
+            "We plan. You vibe.",
+            "Escape ordinary. Enter unforgettable.",
+            "For travelers who don’t do basic.",
+            "Discover Yourself.",
+            "From plans to paths to purpose.",
+            "Wander wide, wonder wild.",
+            "Bold breaks. Brilliant beginnings.",
+            "More moments. Less maps.",
+            "Travel, thrill, tell tales.",
+            "Paths that pulse with purpose.",
+            "Journeys that jolt joy.",
+            "Soulful stays. Serene stories.",
+            "Dream, drift, discover.",
+            "Mindful miles. Meaningful memories.",
+            "Roam, relax, repeat.",
+            "Skip the same. Seek the spark."
+          ];
         const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0)
         const quoteWords = travelQuotes[currentQuoteIndex].split(' ')
         useEffect(() => {
