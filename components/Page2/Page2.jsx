@@ -18,8 +18,8 @@ const Page2 = () => {
     const mainControls = useAnimation();
     const [displayedHeading, setDisplayedHeading] = useState("");
     const [displayedParagraph, setDisplayedParagraph] = useState("");
-    const fullHeading = "Plan your perfect trip";
-    const fullParagraph = "Are you looking for an adventurous travel, or just carrying your work alongside you while you travel and explore new places, then your perfect trip is one with us. Travel To Edge helps you search flights & places, book your most convenient hotels/places at your comfort while we help you discover the world.";
+    const fullHeading = "Shape Your Journey, Awaken Your Spirit";
+    const fullParagraph = "At Travel To Edge, we believe every journey is a mirror - reflecting dreams you've dared, and places your heart has longed for. Whether you chase the rush of distant skies or carry your world gently into new landscapes, we walk beside you - weaving comfort, wonder, and belonging into every mile.";
 
     const paragraphWords = fullParagraph.split(' ');
     const [counterValues, setCounterValues] = useState(stats.map(() => 0));

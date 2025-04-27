@@ -20,6 +20,11 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head> 
+      <link rel="icon" href="/LOGO.png" type="image/png" />
+      <title>Travel To Edge</title>
+      <meta name="description" content="Travel To Edge turns your travel dreams into reality with curated adventures, personalized tours, and unforgettable journeys across the world." />
+      </head>
       <body
         className={`${montserrat.className} antialiased w-full relative max-w-[1600px] mx-auto flex flex-col`}
       >
