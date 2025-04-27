@@ -128,7 +128,7 @@
         }
 
         return (
-            <div className="w-full manual-height md:max-h-[800px] flex items-center justify-center md:p-4 mt-24">
+            <div className="w-full manual-height md:max-h-[800px] flex items-center justify-center md:p-4 mt-24 px-6 md:px-10 xl:px-24">
                 <div className="w-full mx-auto rounded-xl overflow-hidden shadow-xl flex flex-col md:flex-row h-auto">
 
                     <div className="w-full md:w-1/2 relative bg-[#03435e] text-white h-[300px] md:h-auto">

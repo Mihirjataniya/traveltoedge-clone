@@ -146,7 +146,7 @@ export default function ToursPageClient({ initialTours, categories }) {
   }
 
   return (
-    <div className="w-full min-h-screen mt-24">
+    <div className="w-full min-h-screen mt-24 px-6 md:px-10 xl:px-24">
       {/* Hero Section */}
       <motion.div
         className="relative h-[40vh] md:h-[50vh] overflow-hidden"

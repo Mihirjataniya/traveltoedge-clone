@@ -1,13 +1,13 @@
 "use client";
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Plane, Hotel, Map, Navigation } from "lucide-react";
+import { Plane, Hotel, Map, Navigation, Mountain } from "lucide-react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import Link from 'next/link';
 
 const Page2 = () => {
     const stats = [
-        { number: 150, label: "Flight Destinations", icon: <Plane className="w-6 h-6" /> },
+        { number: 150, label: "Destinations", icon: <Mountain className="w-6 h-6" /> },
         { number: 250, label: "Hotels", icon: <Hotel className="w-6 h-6" /> },
         { number: 80, label: "Elite Transportation", icon: <Navigation className="w-6 h-6" /> },
         { number: 40, label: "Dream places", icon: <Map className="w-6 h-6" /> }
@@ -48,14 +48,14 @@ const Page2 = () => {
     }, [isInView, mainControls]);
 
     return (
-        <div ref={sectionRef} className=" md:max-h-[800px] flex items-center my-14 md:mt-28 w-full">
+        <div ref={sectionRef} className=" md:max-h-[800px] flex items-center my-14 md:mt-28 w-full px-6 md:px-10 xl:px-24">
             <div className="w-full ">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-10">
 
                     {/* Desktop Image */}
-                    <div className="hidden lg:block relative w-[574px] aspect-[1/1] rounded-3xl overflow-hidden">
+                    <div className="hidden lg:block relative w-[570px] aspect-[1/1] rounded-3xl overflow-hidden">
                         <Image
-                            src="/Page2WebImage.png"
+                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745749672/Group_59_1_t3rsgn.png"
                             alt="Mountain vista"
                             fill
                             className="object-contain w-full h-full"
@@ -106,7 +106,7 @@ const Page2 = () => {
                     {/* Mobile Image */}
                     <div className="md:hidden relative w-full max-w-[400px] aspect-[1/1] rounded-3xl overflow-hidden">
                         <Image
-                            src="/Page2WebImage.png"
+                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745749672/Group_59_1_t3rsgn.png"
                             alt="Mountain vista"
                             fill
                             className="object-contain object-center w-full h-full"

@@ -3,7 +3,7 @@ import "./AboutUs.css";
 import Image from 'next/image';
 const page = () => {
     return (
-        <div className='w-full min-h-screen mt-24'>
+        <div className='w-full min-h-screen mt-24 px-6 md:px-10 xl:px-24'>
             {/* Section 1: Mission + Vision and Image */}
             <div className="flex flex-col md:flex-row items-center gap-12 my-6 animate-slide-in-left ">
                 <div className="md:w-1/2 space-y-6">
@@ -69,7 +69,7 @@ const page = () => {
             <div className="flex flex-col md:flex-row items-center mt-12 md:gap-12 my-6 animate-slide-in-left">
                 <div className="md:w-1/2 space-y-6">
                     <h2 className="text-3xl font-bold text-[#03435e]">Why Travel With Us?</h2>
-                    <ul className="list-disc list-inside text-[#03435e] leading-6.5 space-y-2">
+                    <ul className="list-disc list-inside text-[#03435e] leading-7.5 space-y-2">
                         <li>🎯 Made For You Itineraries
                             No copy-paste plans here. Every journey is handcrafted to match your mood, pace, and travel dreams - because no two explorers are the same.
                         </li>
@@ -93,7 +93,7 @@ const page = () => {
                             className="object-cover"
                         />
                     </div> */}
-                    <ul className='list-disc list-inside text-[#03435e] leading-6.5 space-y-2'>
+                    <ul className='list-disc list-inside text-[#03435e] leading-7.5 space-y-2'>
                     <li>🧴 From sanitized stays to hygienic transfers, we’re obsessed with cleanliness - because comfort begins with care.
                         .</li>
                         <li>🧒 Travelling with kids ? We plan with them in mind - smooth schedules, child-safe stays, fun detours, and zero stress.

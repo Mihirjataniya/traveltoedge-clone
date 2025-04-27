@@ -20,12 +20,17 @@ export default function Navbar() {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [activeLink, setActiveLink] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [scrolled, setScrolled] = useState(false);
+  
+  // Check if we're on the homepage
+  const isHomePage = pathname === "/";
+  
+  // Determine if navbar should be transparent (only on homepage and not scrolled)
+  const isTransparent = isHomePage && !scrolled;
 
   useEffect(() => {
     setActiveLink(pathname);
   }, [pathname]);
-
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -54,18 +59,34 @@ export default function Navbar() {
     };
   }, [isSidebarOpen]);
 
-
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [pathname]);
 
+  // Add scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial state
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
+
   return (
     <>
-      <nav className="fixed top-0 max-w-[1600px] mx-auto z-50 w-full py-2 px-4 md:px-8 lg:px-12 bg-white flex flex-col justify-center h-20 md:h-20 lg:h-20 ">
+      <nav className={`fixed top-0 max-w-[1600px] mx-auto z-50 w-full py-2 px-4 md:px-8 lg:px-12 flex flex-col justify-center h-20 md:h-20 lg:h-20 transition-all duration-300 ${isTransparent ? 'bg-transparent' : 'bg-white'}`}>
         <div className="flex items-center outline-none justify-between w-full">
           <Link href={'/'}>
            <Image
-            src="/LOGO.png"
+            src={isTransparent ? "/LOGO-white.png" : "/LOGO.png"} // Use white logo on transparent bg
             alt="Travel To Edge - Explore the World"
             width={120}
             height={50}
@@ -74,9 +95,8 @@ export default function Navbar() {
           />
           </Link>
          
-
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex space-x-1  text-base xl:text-lg font-bold">
+          <ul className="hidden lg:flex space-x-1 text-base xl:text-lg font-bold">
             {navLinks.map((link) => {
               const isHovered = hoveredLink === link.path;
               const isActive = activeLink === link.path;
@@ -105,8 +125,13 @@ export default function Navbar() {
                   <Link
                     href={link.path}
                     prefetch={false}
-                    className={`relative z-10 px-2 xl:px-4 py-2 transition-colors duration-200 ${showHighlight ? "text-white" : "text-[#03435e]"
-                      }`}
+                    className={`relative z-10 px-2 xl:px-4 py-2 transition-colors duration-200 ${
+                      showHighlight 
+                        ? "text-white" 
+                        : isTransparent 
+                          ? "text-white" 
+                          : "text-[#03435e]"
+                    }`}
                   >
                     {link.name}
                   </Link>
@@ -120,7 +145,7 @@ export default function Navbar() {
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             aria-label="Toggle menu"
           >
-            <Menu className="text-[#03434e] font-bold" />
+            <Menu className={isTransparent ? "text-white font-bold" : "text-[#03434e] font-bold"} />
           </button>
         </div>
       </nav>
@@ -171,7 +196,6 @@ export default function Navbar() {
             );
           })}
         </ul>
-
       </motion.div>
     </>
   );

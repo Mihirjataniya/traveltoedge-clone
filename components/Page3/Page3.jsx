@@ -42,7 +42,7 @@ const Page3 = () => {
     // Show loading state
     if (isLoading) {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 md:px-10 xl:px-24">
                 {[1, 2, 3].map((item) => (
                     <div key={item} className="bg-white rounded-xl overflow-hidden shadow-lg h-[400px] animate-pulse">
                         <div className="h-48 bg-gray-200"></div>
@@ -59,7 +59,7 @@ const Page3 = () => {
     }
 
     return (
-        <div className="my-16 flex items-center w-full">
+        <div className="my-16 flex items-center w-full px-6 md:px-10 xl:px-24">
             <div className="w-full">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-xl md:text-3xl font-bold text-[#004B67]">Discover your Dream Destination</h2>

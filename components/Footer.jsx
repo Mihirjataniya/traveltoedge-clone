@@ -2,33 +2,25 @@ import Image from "next/image";
 import FabookIcon from "./icons/FabookIcon";
 import InstagramIcon from "./icons/InstagramIcon";
 import LinkedinIcon from "./icons/LinkedinIcon";
-import TwitterIcon from "./icons/TwitterIcon";
-import YoutubeIcon from "./icons/YoutubeIcon";
 import Link from "next/link";
-import { MapPinIcon } from "lucide-react";
+import { MapPinIcon, PhoneCallIcon } from "lucide-react";
+import MailIcon from "./icons/MailIcon";
+import ThreadsIcon from "./icons/ThreadsIcon";
+
 
 const Footer = () => {
   const imageMap = [
-    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
-    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
-    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
-    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
-    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
-    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
-    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
-    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
-    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
-    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
-    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
-    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
-    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
-    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
-    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
-    { src: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Peak Gazing' },
-    { src: 'https://images.unsplash.com/photo-1519338381761-c7523edc1f46?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Beach Adventures' },
-    { src: 'https://images.unsplash.com/photo-1605039316064-c65942f60f5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Mountain Hiking' },
-    { src: 'https://images.unsplash.com/photo-1510952267577-fc96d5ca660a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Desert adventure' },
-    { src: 'https://images.unsplash.com/photo-1699811250842-9338adf8fd9f?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Bonfire nights' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745740920/IMG_9238_znz3ea.jpg', label: 'Peak Gazing' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745740919/IMG_9236_bnh1jl.jpg', label: 'Beach Adventures' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745740918/IMG_9240_kdrthr.jpg', label: 'Mountain Hiking' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745741594/IMG_9239_ctg4ng.jpg', label: 'Mountain Hiking' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748037/WhatsApp_Image_2025-04-27_at_2.55.55_PM_oa0p3e.jpg', label: 'Bonfire nights' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748038/WhatsApp_Image_2025-04-27_at_2.55.56_PM_1_nwrjub.jpg', label: 'Peak Gazing' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748038/WhatsApp_Image_2025-04-27_at_2.55.56_PM_ihtzyg.jpg', label: 'Mountain Hiking' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748039/WhatsApp_Image_2025-04-27_at_2.55.57_PM_mpszi5.jpg', label: 'Desert adventure' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748039/WhatsApp_Image_2025-04-27_at_2.56.33_PM_ivv39w.jpg', label: 'Peak Gazing' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748039/WhatsApp_Image_2025-04-27_at_2.56.29_PM_ifjekz.jpg', label: 'Mountain Hiking' },
+    { src: 'https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745748040/WhatsApp_Image_2025-04-27_at_2.51.45_PM_zcgdhu.jpg', label: 'Desert adventure' },
   ];
   return (
     <footer className="relative bg-[#024262] text-white pt-36 pb-12 px-6 md:px-16 mt-36">
@@ -100,24 +92,26 @@ const Footer = () => {
         {/* Right Section */}
         <div className="space-y-8 lg:text-left">
           <div>
-            <h3 className="font-semibold mb-2 text-md md:text-lg">Follow us on</h3>
+            {/* <h3 className="font-semibold mb-2 text-md md:text-lg">Follow us on</h3> */}
             <div className="flex items-center lg:justify-start gap-4 text-white ">
               <Link target="_blank" href={"https://www.facebook.com/Traveltoedge/"}><FabookIcon username={"Traveltoedge"} /></Link>
               <Link target="_blank" href={"https://www.instagram.com/traveltoedge_/"}><InstagramIcon username={"traveltoedge_"} /></Link>
-              <Link target="_blank" href={""}><TwitterIcon /> </Link>
-              <Link target="_blank" href={""}><LinkedinIcon /></Link>
-              <Link target="_blank" href={""}><YoutubeIcon /></Link>
-            </div>
+              <Link target="_blank" href={"https://www.linkedin.com/company/travel-to-edge/about/"}><LinkedinIcon username={"travel-to-edge"} /></Link>
+              {/* <Link target="_blank" href={"https://www.threads.com/@traveltoedge_?xmt=AQGzlMWbR4MKQMuWzzvsxhJUVH7MlIIggG8Wnd0zBkFpwPc"}><ThreadsIcon username={"traveltoedge_"} /></Link> */}
+              <Link target="_blank" href={"mailto:travel2edge@gmail.com"}>
+                <MailIcon username={"travel2edge@gmail.com"} />
+              </Link>
+            </div>  
           </div>
           <div>
             <h3 className="font-semibold text-md md:text-lg mb-2">Contact</h3>
             <p className="text-white/90 text-sm md:text-lg leading-8">
-            <div className="flex items-center gap-2">
-            <MapPinIcon /> <p>Delhi</p>
-            </div>
-              <a href="tel:+919739240290">Arshan Khan : +91 97392 40290</a> <br />
-              <a href="tel:+918810552497">Kriss Nautiyal : +91 88105 52497</a> <br />
-              traveltoedge@gmail.com
+              <div className="flex items-center gap-2">
+                <MapPinIcon /> <p>Vasant Kunj Delhi, 110070</p>
+              </div>
+              {/* travel2edge@gmail.com <br /> */}
+              <a className="flex items-center gap-2" href="tel:+919739240290"><PhoneCallIcon /> +91 92204 57513</a> 
+              <a className="flex items-center gap-2" href="tel:+918810552497"><PhoneCallIcon /> +91 97392 40290</a>
             </p>
           </div>
         </div>

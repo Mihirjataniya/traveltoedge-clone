@@ -1,4 +1,5 @@
 'use client'
+import NewPage1 from "@/components/NewPage1/NewPage1";
 import Page1 from "@/components/Page1/Page1";
 import Page2 from "@/components/Page2/Page2";
 import Page3 from "@/components/Page3/Page3";
@@ -18,12 +19,6 @@ export default function Home() {
       <Page2 />
       <Page3 />
       <Page4 />
-      {/* <div className="hidden md:block">
-        <CircularGallery bend={3} textColor="#ffffff" borderRadius={0.05} />
-      </div>
-      <div className="md:hidden block">
-        <GalleryForPhone />
-      </div> */}
     </div>
   );
 }

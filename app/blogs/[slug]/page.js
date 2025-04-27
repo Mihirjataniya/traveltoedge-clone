@@ -89,7 +89,7 @@ export default function BlogPost() {
         );
     }
     return (
-        <div className="w-full min-h-screen mt-24">
+        <div className="w-full min-h-screen mt-24 px-6 md:px-10 xl:px-24">
             <Head>
                 {/* Twitter Card Meta Tags */}
                 <meta name="twitter:card" content="summary_large_image" />

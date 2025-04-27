@@ -24,8 +24,7 @@ export default function RootLayout({ children }) {
       >
         <Loading />
         <Navbar />
-        <div className="px-6 md:px-10 xl:px-24">
-
+        <div className="">
           {children}
         </div>
         <Footer />

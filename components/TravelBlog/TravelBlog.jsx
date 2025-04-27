@@ -95,7 +95,7 @@ export default function TravelBlog({ initialData, categories: initialCategories 
   }
 
   return (
-    <div className="w-full min-h-screen mt-16">
+    <div className="w-full min-h-screen mt-16 px-6 md:px-10 xl:px-24">
       <div className="container mx-auto py-8 sm:py-12">
         {/* Section Header */}
         <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
