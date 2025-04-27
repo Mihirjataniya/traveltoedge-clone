@@ -1,9 +1,3 @@
-.hero-component {
-    background: url('../../public/Hero-Image.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
 
 @keyframes fadeInUp {
     from {

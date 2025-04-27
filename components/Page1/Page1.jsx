@@ -10,18 +10,20 @@ const Page1 = () => {
 
   return (
     <div className="h-screen max-h-[800px] my-4 relative -mt-20"> {/* Add negative margin top */}
-      <div className="w-full relative hero-component h-[100%] max-h-[800px] flex flex-col items-center justify-center gap-8 md:gap-12 fade-in-down overflow-hidden pt-20"> {/* Add padding top */}
+      <div className="w-full relative h-[100%] max-h-[800px] flex flex-col items-center justify-center gap-8 md:gap-12 fade-in-down overflow-hidden pt-20"> {/* Add padding top */}
         {/* Background Video */}
         <video
           autoPlay
           loop
           muted
           playsInline
+          poster="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745750672/WhatsApp_Image_2025-04-27_at_2.46.24_PM_cutrea.jpg"
           className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
         >
-          <source src="https://res.cloudinary.com/dpc5gwlvv/video/upload/v1745754455/IMG_1358_trwqei.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/dpc5gwlvv/video/upload/q_auto,f_auto/v1745754455/IMG_1358_trwqei.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+
 
         {/* Foreground Content - shifted down to make room for navbar */}
         <p className="text-white text-2xl sm:text-3xl md:text-5xl xl:text-6xl text-shadow-md tracking-wide text-center font-bold">
