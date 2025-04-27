@@ -10,7 +10,7 @@ const Page1 = () => {
 
   return (
     <div className="h-screen max-h-[800px] my-4 relative -mt-20"> {/* Add negative margin top */}
-      <div className="w-full relative h-[100%] max-h-[800px] flex flex-col items-center justify-center gap-8 md:gap-12 fade-in-down overflow-hidden pt-20"> 
+      <div className="w-full relative h-[100%] max-h-[800px] flex flex-col items-center justify-center gap-8 md:gap-12 fade-in-down overflow-hidden pt-20">
         <video
           autoPlay
           loop
@@ -19,8 +19,14 @@ const Page1 = () => {
           preload="auto"
           poster="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745750672/WhatsApp_Image_2025-04-27_at_2.46.24_PM_cutrea.jpg"
           className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+          onCanPlayThrough={(e) => {
+            e.target.play().catch(error => {
+              console.log("Playback failed:", error);
+            });
+          }}
         >
-          <source src="https://res.cloudinary.com/dpc5gwlvv/video/upload/q_auto,f_auto/v1745754455/IMG_1358_trwqei.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/dpc5gwlvv/video/upload/q_auto:best,f_auto/v1745754455/IMG_1358_trwqei.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/dpc5gwlvv/video/upload/q_auto:best,f_auto,f_webm/v1745754455/IMG_1358_trwqei.mp4" type="video/webm" />
           Your browser does not support the video tag.
         </video>
 
