@@ -162,7 +162,10 @@ function TourCard({ id, name, location, price, image, itinerary }) {
                     <span className="text-sm text-gray-500 line-clamp-1">{location}</span>
                 </div>
                 <div className="flex items-center justify-between mt-auto">
+                    <div className='flex space-y-0.5 flex-col'>
+                    <p className='text-xs text-gray-400'>Starting From :</p>
                     <span className="text-lg font-bold text-[#004B67]">{price}</span>
+                    </div>
                     <a target='_blank' href={itinerary} className="w-10 h-10 rounded-full bg-[#004B67] flex items-center justify-center text-white hover:bg-[#003B57] transition-colors flex-shrink-0">
                         <ArrowUpRight className="w-5 h-5" />
                     </a>

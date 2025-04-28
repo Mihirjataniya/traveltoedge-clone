@@ -17,7 +17,7 @@ const Page1 = () => {
           muted
           playsInline
           preload="auto"
-          poster="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745750672/WhatsApp_Image_2025-04-27_at_2.46.24_PM_cutrea.jpg"
+          poster="https://images.unsplash.com/photo-1617380613434-7495e9b45dfb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
           onCanPlayThrough={(e) => {
             e.target.play().catch(error => {

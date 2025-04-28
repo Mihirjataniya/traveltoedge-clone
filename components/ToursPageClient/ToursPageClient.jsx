@@ -405,9 +405,9 @@ function TourCard({ tour }) {
           )}
         </div>
         <div className="flex items-center justify-between">
-          <div>
+          <div className="flex flex-col justify-between">
+             <p className='text-xs text-gray-400'>Starting From :</p>
             <span className="text-2xl font-bold text-[#03435E]">₹ {tour.price}</span>
-            <span className="text-gray-500 text-sm"> / person</span>
           </div>
           <a href={tour.itinerary} target="_blank" rel="noopener noreferrer">
             <motion.button

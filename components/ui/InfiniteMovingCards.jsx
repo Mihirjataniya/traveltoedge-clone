@@ -64,7 +64,7 @@ export const InfiniteMovingCards = ({
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.8, ease: "easeOut" }}
             className={cn(
-                "scroller relative z-20 max-w-[1300px] overflow-hidden",
+                "scroller relative z-20 overflow-hidden",
                 className
             )}
         >
