@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://traveltoedge.com
-
-# Sitemaps
-Sitemap: https://traveltoedge.com/sitemap.xml
