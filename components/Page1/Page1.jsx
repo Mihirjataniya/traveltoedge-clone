@@ -9,8 +9,8 @@ const Page1 = () => {
   const text = "BEYOND DESTINATIONS, INTO DISCOVERY".split("");
 
   return (
-    <div className="h-screen max-h-[800px] my-4 relative -mt-20"> {/* Add negative margin top */}
-      <div className="w-full relative h-[100%] max-h-[800px] flex flex-col items-center justify-center gap-8 md:gap-12 fade-in-down overflow-hidden pt-20">
+    <div className="h-screen my-4 relative -mt-20"> {/* Add negative margin top */}
+      <div className="w-full relative h-[100%] flex flex-col items-center justify-center gap-8 md:gap-12 fade-in-down overflow-hidden pt-20">
         <video
           autoPlay
           loop
@@ -32,7 +32,7 @@ const Page1 = () => {
 
 
         {/* Foreground Content - shifted down to make room for navbar */}
-        <p className="text-white text-2xl sm:text-3xl md:text-5xl xl:text-6xl text-shadow-md tracking-wide text-center font-bold">
+        <p className="text-white text-2xl sm:text-3xl md:text-5xl xl:text-6xl 3xl:text-8xl text-shadow-md tracking-wide text-center font-bold">
           <div className="flex flex-col items-center">
             <div className="flex">
               {"BEYOND DESTINATIONS,".split("").map((char, i) => (
@@ -49,7 +49,6 @@ const Page1 = () => {
               ))}
             </div>
           </div>
-
         </p>
 
         <Link href={'/contact-us'} className="flex items-center justify-between gap-4 sm:gap-6 backdrop-blur-md bg-white/20 text-white border border-white/40 px-6 sm:px-8 rounded-2xl transition-all duration-300 hover:bg-white/30 hover:border-white/60 fade-in-up">

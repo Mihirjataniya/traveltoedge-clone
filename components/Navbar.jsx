@@ -82,11 +82,11 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 max-w-[1600px] mx-auto z-50 w-full py-2 px-4 md:px-8 lg:px-12 flex flex-col justify-center h-20 md:h-20 lg:h-20 transition-all duration-300 ${isTransparent ? 'bg-transparent' : 'bg-white'}`}>
-        <div className="flex items-center outline-none justify-between w-full">
+      <nav className={`fixed top-0 mx-auto z-50 w-full py-2 px-4 md:px-8 lg:px-12 flex flex-col justify-center h-20 transition-all duration-300 ${isTransparent ? 'bg-transparent' : 'bg-white'}`}>
+        <div className=" flex items-center outline-none justify-between w-full">
           <Link href={'/'}>
            <Image
-            src={isTransparent ? "/LOGO-white.png" : "/LOGO.png"} // Use white logo on transparent bg
+            src={isTransparent ? "/LOGO-white.png" : "/LOGO.png"}
             alt="Travel To Edge - Explore the World"
             width={120}
             height={50}
@@ -96,7 +96,7 @@ export default function Navbar() {
           </Link>
          
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex space-x-1 text-base xl:text-lg font-bold">
+          <ul className="hidden lg:flex space-x-2 xl:space-x-4 2xl:space-x-6 text-base lg:text-base xl:text-lg 2xl:text-xl font-bold">
             {navLinks.map((link) => {
               const isHovered = hoveredLink === link.path;
               const isActive = activeLink === link.path;
@@ -113,7 +113,7 @@ export default function Navbar() {
                   {showHighlight && (
                     <motion.div
                       layoutId="active-pill"
-                      className="absolute inset-0 bg-[#03435e] rounded-full z-0"
+                      className={`absolute inset-0 ${isActive ? "bg-[#03435e]" : "bg-[#03435e]"} rounded-full z-0`}
                       transition={{
                         type: "spring",
                         stiffness: 300,

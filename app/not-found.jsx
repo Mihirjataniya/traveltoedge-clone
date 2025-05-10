@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-
+import './404.css'
 const animations = ["float", "floatReverse", "float2", "floatReverse2"];
 
 const NotFound = () => {

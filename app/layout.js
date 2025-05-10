@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} antialiased w-full relative max-w-[1600px] mx-auto flex flex-col`}
+        className={`${montserrat.className} antialiased w-full relative mx-auto flex flex-col`}
       >
         <Loading />
         <Navbar />

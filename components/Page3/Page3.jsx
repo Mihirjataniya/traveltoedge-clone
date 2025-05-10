@@ -59,7 +59,7 @@ const Page3 = () => {
     }
 
     return (
-        <div className="my-16 flex items-center w-full px-6 md:px-10 xl:px-24">
+        <div className="my-16 flex items-center w-full max-w-[1800px] mx-auto px-6 md:px-10 xl:px-24">
             <div className="w-full">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-xl md:text-3xl font-bold text-[#004B67]">Discover your Dream Destination</h2>

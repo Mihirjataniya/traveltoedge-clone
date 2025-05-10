@@ -48,7 +48,7 @@ const Page2 = () => {
     }, [isInView, mainControls]);
 
     return (
-        <div ref={sectionRef} className=" md:max-h-[800px] flex items-center my-14 md:mt-28 w-full px-6 md:px-10 xl:px-24">
+        <div ref={sectionRef} className=" md:max-h-[800px] max-w-[1800px] mx-auto  flex items-center my-14 md:mt-28 w-full px-6 md:px-10 xl:px-24">
             <div className="w-full ">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-10">
 
