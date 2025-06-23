@@ -21,6 +21,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="s-fqZXZzhxCboLfhN4WNtXWKmt5I-6zzS5GC3DaQdPo" />
+      </head>
       <body
         className={`${montserrat.className} antialiased w-full relative mx-auto flex flex-col`}
       >
