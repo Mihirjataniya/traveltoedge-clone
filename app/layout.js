@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Montserrat } from "next/font/google";
 import Loading from "@/components/Loading";
+import Script from 'next/script';
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -46,8 +47,15 @@ export default function RootLayout({ children }) {
           {children}
         </div>
         <Footer />
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTXZPFGS"
-          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-PTXZPFGS"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
+        </noscript>
+
       </body>
     </html>
   );
