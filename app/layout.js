@@ -55,7 +55,6 @@ export default function RootLayout({ children }) {
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>
-
       </body>
     </html>
   );

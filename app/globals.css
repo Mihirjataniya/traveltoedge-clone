@@ -175,113 +175,113 @@
 
 
 
-/* Base editor styles */
-.tiptap {
-    @apply outline-none w-full min-h-64;
-}
+    /* Base editor styles */
+    .tiptap {
+        @apply outline-none w-full min-h-64;
+    }
 
-/* Typography */
-.tiptap h1 {
-    @apply text-3xl font-bold mb-4 mt-6;
-}
+    /* Typography */
+    .tiptap h1 {
+        @apply text-3xl font-bold mb-4 mt-6;
+    }
 
-.tiptap h2 {
-    @apply text-2xl font-bold mb-3 mt-5;
-}
+    .tiptap h2 {
+        @apply text-2xl font-bold mb-3 mt-5;
+    }
 
-.tiptap h3 {
-    @apply text-xl font-bold mb-3 mt-4;
-}
+    .tiptap h3 {
+        @apply text-xl font-bold mb-3 mt-4;
+    }
 
-.tiptap p {
-    @apply mb-4 leading-relaxed;
-}
+    .tiptap p {
+        @apply mb-4 leading-relaxed;
+    }
 
-.tiptap a {
-    @apply text-blue-600 underline hover:text-blue-800;
-}
+    .tiptap a {
+        @apply text-blue-600 underline hover:text-blue-800;
+    }
 
-/* Lists */
-.tiptap ul {
-    @apply list-disc pl-8 mb-4;
-}
+    /* Lists */
+    .tiptap ul {
+        @apply list-disc pl-8 mb-4;
+    }
 
-.tiptap ol {
-    @apply list-decimal pl-8 mb-4;
-}
+    .tiptap ol {
+        @apply list-decimal pl-8 mb-4;
+    }
 
-.tiptap li {
-    @apply mb-1;
-}
+    .tiptap li {
+        @apply mb-1;
+    }
 
-/* Blockquote */
-.tiptap blockquote {
-    @apply border-l-4 border-gray-300 pl-4 py-1 italic text-gray-700 mb-4 text-center;
-}
+    /* Blockquote */
+    .tiptap blockquote {
+        @apply border-l-4 border-gray-300 pl-4 py-1 italic text-gray-700 mb-4 text-center;
+    }
 
-/* Horizontal rule */
-.tiptap hr {
-    @apply border-t border-gray-300 my-6;
-}
+    /* Horizontal rule */
+    .tiptap hr {
+        @apply border-t border-gray-300 my-6;
+    }
 
-/* Code blocks */
-.tiptap pre {
-    @apply bg-gray-100 rounded-md p-4 mb-4 overflow-x-auto font-mono text-sm;
-}
+    /* Code blocks */
+    .tiptap pre {
+        @apply bg-gray-100 rounded-md p-4 mb-4 overflow-x-auto font-mono text-sm;
+    }
 
-.tiptap code {
-    @apply bg-gray-100 rounded px-1 py-0.5 font-mono text-sm;
-}
+    .tiptap code {
+        @apply bg-gray-100 rounded px-1 py-0.5 font-mono text-sm;
+    }
 
-/* Images */
-.tiptap img {
-    @apply max-w-full h-auto rounded-lg my-4;
-}
+    /* Images */
+    .tiptap img {
+        @apply max-w-full h-auto rounded-lg my-4;
+    }
 
-/* Text alignment */
-.tiptap .text-left {
-    @apply text-left;
-}
+    /* Text alignment */
+    .tiptap .text-left {
+        @apply text-left;
+    }
 
-.tiptap .text-center {
-    @apply text-center;
-}
+    .tiptap .text-center {
+        @apply text-center;
+    }
 
-.tiptap .text-right {
-    @apply text-right;
-}
+    .tiptap .text-right {
+        @apply text-right;
+    }
 
-/* Editor is focused */
-.tiptap.ProseMirror-focused {
-    @apply ring-2 ring-blue-200;
-}
+    /* Editor is focused */
+    .tiptap.ProseMirror-focused {
+        @apply ring-2 ring-blue-200;
+    }
 
-/* Placeholder text */
-.tiptap p.is-editor-empty:first-child::before {
-    @apply text-gray-400 float-left h-0 pointer-events-none;
-    content: attr(data-placeholder);
-}
+    /* Placeholder text */
+    .tiptap p.is-editor-empty:first-child::before {
+        @apply text-gray-400 float-left h-0 pointer-events-none;
+        content: attr(data-placeholder);
+    }
 
-/* Selected text */
-.tiptap .ProseMirror-selectednode {
-    @apply outline-2 outline-blue-200;
-}
+    /* Selected text */
+    .tiptap .ProseMirror-selectednode {
+        @apply outline-2 outline-blue-200;
+    }
 
-/* Add these styles to your CSS */
-.tiptap,
-.prose,
-.preview-content {
-    white-space: pre-wrap;
-    /* Preserves whitespace but wraps text */
-    word-wrap: break-word;
-    /* Allows long words to be broken and wrap */
-    overflow-wrap: break-word;
-    /* Modern version of word-wrap */
-    max-width: 100%;
-    /* Ensures content doesn't extend beyond container */
-    overflow-x: hidden;
-    /* Prevents horizontal scrolling */
-}
+    /* Add these styles to your CSS */
+    .tiptap,
+    .prose,
+    .preview-content {
+        white-space: pre-wrap;
+        /* Preserves whitespace but wraps text */
+        word-wrap: break-word;
+        /* Allows long words to be broken and wrap */
+        overflow-wrap: break-word;
+        /* Modern version of word-wrap */
+        max-width: 100%;
+        /* Ensures content doesn't extend beyond container */
+        overflow-x: hidden;
+        /* Prevents horizontal scrolling */
+    }
 
 
 

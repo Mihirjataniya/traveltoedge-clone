@@ -26,13 +26,6 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-    console.log(title);
-    console.log(excerpt)
-    console.log(readTime)
-    console.log(category)
-    console.log(location)
-    console.log(image)
-    console.log(content)
 
     const newBlog = await Blog.create({
       title,

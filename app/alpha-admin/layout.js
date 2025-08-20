@@ -1,6 +1,5 @@
 'use client'
 import { SessionProvider } from "next-auth/react"; // Import SessionProvider
-import { useSession } from "next-auth/react"; // For session-related logic
 import Loading from "@/components/Loading"; // Optional: add a loading screen
 import Link from "next/link";
 
