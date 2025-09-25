@@ -7,7 +7,7 @@ import axios from "axios"
 
 const chatFlow = {
     start: {
-        message: "Namaste! 🙏 I'm Travel Captain, your travel assistant. How can I help you explore incredible India?",
+        message: "Namaste! 🙏 I'm Trip Captain, your travel assistant. How can I help you explore incredible India?",
         options: [
             { id: "destinations", text: "Popular Indian Destinations", nextStep: "destinations" },
             { id: "packages", text: "Tour Packages", nextStep: "packages" },
@@ -405,7 +405,7 @@ export default function TravelChatbot() {
                         }`}
                     style={{ backgroundColor: "#0F3E4A" }}
                 >
-                    Ask Travel Captain 💬
+                    Ask Trip Captain 💬
                     <div
                         className="absolute top-1/2 -translate-y-1/2 left-full w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent"
                         style={{ borderLeftColor: "#0F3E4A" }}
@@ -430,7 +430,7 @@ export default function TravelChatbot() {
 
             {/* Chat Window */}
             <div
-                className={`fixed bottom-4 right-4 md:bottom-8 md:right-8 w-[calc(100vw-2rem)] h-[calc(100vh-2rem)] md:w-[400px] md:h-[600px] bg-white rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 z-50 border border-gray-200 ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                className={`fixed bottom-4 right-4 md:bottom-8 md:right-8 w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-[400px] md:h-[600px] bg-white rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 z-50 border border-gray-200 ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
                     }`}
             >
                 <div className="flex flex-col h-full">
@@ -448,7 +448,7 @@ export default function TravelChatbot() {
                                     />
                                 </div>
                                 <div className="min-w-0">
-                                    <h3 className="text-base md:text-lg font-semibold truncate">Travel Captain</h3>
+                                    <h3 className="text-base md:text-lg font-semibold truncate">Trip Captain</h3>
                                     <p className="text-xs md:text-sm text-white/80 truncate">Your Travel Expert</p>
                                 </div>
                             </div>
