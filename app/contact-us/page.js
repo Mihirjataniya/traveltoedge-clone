@@ -120,11 +120,7 @@ export default function TravelForm() {
             } catch (error) {
                 alert(error)
             }
-            console.log("Submitting...", formData);
-        } else {
-            console.log(formData)
-            console.log("Validation failed");
-        }
+        } 
     }
 
     return (

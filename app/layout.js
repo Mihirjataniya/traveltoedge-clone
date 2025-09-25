@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Montserrat } from "next/font/google";
 import Loading from "@/components/Loading";
 import Script from 'next/script';
+import TravelChatbot from "@/components/Chatbot";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
         <div className="">
           {children}
         </div>
+        <TravelChatbot />
         <Footer />
         <noscript>
           <iframe
