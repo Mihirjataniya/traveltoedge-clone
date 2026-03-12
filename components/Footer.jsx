@@ -3,7 +3,7 @@ import FabookIcon from "./icons/FabookIcon";
 import InstagramIcon from "./icons/InstagramIcon";
 import LinkedinIcon from "./icons/LinkedinIcon";
 import Link from "next/link";
-import { MapPinIcon, PhoneCallIcon } from "lucide-react";
+import { Mail, MapPinIcon, PhoneCallIcon } from "lucide-react";
 import MailIcon from "./icons/MailIcon";
 import ThreadsIcon from "./icons/ThreadsIcon";
 
@@ -111,8 +111,9 @@ const Footer = () => {
                 <MapPinIcon /> <p>Vasant Kunj Delhi, 110070</p>
               </div>
               {/* travel2edge@gmail.com <br /> */}
-              <a className="flex items-center gap-2" href="tel:+919739240290"><PhoneCallIcon /> +91 92204 57513</a> 
+              <a className="flex items-center gap-2" href="tel:+919739240290"><PhoneCallIcon /> +91 70422 24419</a> 
               <a className="flex items-center gap-2" href="tel:+918810552497"><PhoneCallIcon /> +91 97392 40290</a>
+              <a className="flex items-center gap-2" href="mailto:travel2edge@gmail.com"><Mail />travel2edge@gmail.com</a>
             </p>
           </div>
         </div>
