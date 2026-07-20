@@ -106,15 +106,15 @@ const Footer = () => {
           </div>
           <div>
             <h3 className="font-semibold text-md md:text-lg mb-2">Contact</h3>
-            <p className="text-white/90 text-sm md:text-lg leading-8">
+            <div className="text-white/90 text-sm md:text-lg leading-8">
               <div className="flex items-center gap-2">
-                <MapPinIcon /> <p>Vasant Kunj Delhi, 110070</p>
+                <MapPinIcon /> <span>Vasant Kunj Delhi, 110070</span>
               </div>
               {/* travel2edge@gmail.com <br /> */}
-              <a className="flex items-center gap-2" href="tel:+919739240290"><PhoneCallIcon /> +91 70422 24419</a> 
+              <a className="flex items-center gap-2" href="tel:+919739240290"><PhoneCallIcon /> +91 70422 24419</a>
               <a className="flex items-center gap-2" href="tel:+918810552497"><PhoneCallIcon /> +91 97392 40290</a>
-              <a className="flex items-center gap-2" href="mailto:travel2edge@gmail.com"><Mail />travel2edge@gmail.com</a>
-            </p>
+              <a className="flex items-center gap-2" target="_blank" href="mailto:travel2edge@gmail.com"><Mail />travel2edge@gmail.com</a>
+            </div>
           </div>
         </div>
       </div>

@@ -9,11 +9,13 @@ const tourPackagesSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     rating: { type: Number, default: 0 },
     image: { type: String, required: true },
+    coverImage: { type: String },
     category: {
       type: String,
       enum: ["Islands", "Mountains", "Adventure", "Beach", "City", 'Cultural'],
     },
     itinerary: { type: String },
+    content: { type: String },
     isTopTour: { type: Boolean, default: false },
   },
   { timestamps: true }

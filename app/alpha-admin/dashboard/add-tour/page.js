@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/components/ui/RichTextEditor";
 const AddTourPackage = () => {
     const [formData, setFormData] = useState({
         title: "",
@@ -11,14 +12,18 @@ const AddTourPackage = () => {
         price: "",
         rating: "",
         image: "",
+        coverImage: "",
         category: "",
         itinerary: "",
+        content: "",
         isTopTour: false,
     });
 
     const router = useRouter()
     const [imagePreview, setImagePreview] = useState(null);
+    const [coverPreview, setCoverPreview] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [coverLoading, setCoverLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
 
     const handleChange = (e) => {
@@ -66,6 +71,41 @@ const AddTourPackage = () => {
         }));
         setImagePreview(url);
         setLoading(false);
+    };
+
+    const handleCoverUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setCoverLoading(true);
+
+        const sigRes = await fetch("/api/alpha-admin/cloudinary/signature", {
+            method: "POST",
+        });
+
+        const { signature, timestamp, cloudName, apiKey } = await sigRes.json();
+
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("api_key", apiKey);
+        fd.append("timestamp", timestamp);
+        fd.append("signature", signature);
+
+        const uploadRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+            {
+                method: "POST",
+                body: fd,
+            }
+        );
+
+        const data = await uploadRes.json();
+        setFormData((prev) => ({
+            ...prev,
+            coverImage: data.secure_url,
+        }));
+        setCoverPreview(data.secure_url);
+        setCoverLoading(false);
     };
 
     const handleSubmit = async (e) => {
@@ -208,6 +248,32 @@ const AddTourPackage = () => {
                         </div>
                     )}
                 </div>
+
+                <div className="space-y-1 md:space-y-2">
+                    <label htmlFor="coverImage" className="block font-medium text-sm md:text-base">
+                        Cover Image
+                        <span className="text-gray-400 text-xs md:text-sm ml-1 block md:inline">
+                            (16:9 aspect ratio required. Shown as the banner on the detail page. Falls back to Tour Image if left empty.)
+                        </span>
+                    </label>
+                    <input
+                        type="file"
+                        id="coverImage"
+                        onChange={handleCoverUpload}
+                        accept="image/*"
+                        className="w-full p-2 border rounded text-sm md:text-base"
+                    />
+                    {coverLoading && <p className="text-xs text-blue-600">Uploading cover...</p>}
+                    {coverPreview && (
+                        <div className="mt-2 w-full max-w-xs aspect-video">
+                            <img
+                                src={coverPreview}
+                                alt="Cover Preview"
+                                className="w-full h-full object-cover border rounded"
+                            />
+                        </div>
+                    )}
+                </div>
                 <div className="space-y-1 md:space-y-2">
                     <label htmlFor="isTopTour" className="block font-medium text-sm md:text-base">
                         <input
@@ -222,6 +288,20 @@ const AddTourPackage = () => {
                         />
                         Mark as Top Tour (Show on Homepage)
                     </label>
+                </div>
+
+                <div className="col-span-1 md:col-span-2 space-y-1 md:space-y-2">
+                    <label className="block font-medium text-sm md:text-base">
+                        Tour Content
+                        <span className="text-gray-400 text-xs md:text-sm ml-1 block md:inline">
+                            (Rich detail page. If filled, "View Details" opens this page instead of the PDF.)
+                        </span>
+                    </label>
+                    <RichTextEditor
+                        value={formData.content}
+                        onChange={(html) => setFormData((prev) => ({ ...prev, content: html }))}
+                        placeholder="<p>Write the tour details here...</p>"
+                    />
                 </div>
 
                 <div className="col-span-1 md:col-span-2">

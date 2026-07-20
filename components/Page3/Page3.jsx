@@ -5,6 +5,7 @@ import { MapPin, ArrowUpRight, MoveRight, MoveLeft } from "lucide-react"
 import { motion, useInView, useAnimation } from "framer-motion"
 import Link from 'next/link'
 import axios from 'axios'
+import { slugify } from '@/lib/slug'
 
 const Page3 = () => {
     const [tourPackages, setTourPackages] = useState([])
@@ -81,6 +82,7 @@ const Page3 = () => {
                                         price={`₹ ${tour.price.toLocaleString()}`}
                                         image={tour.image}
                                         itinerary={tour.itinerary}
+                                        content={tour.content}
                                     />
                                 </RevealOnScroll>
                             ))
@@ -142,7 +144,10 @@ function RevealOnScroll({ children, index }) {
     )
 }
 
-function TourCard({ id, name, location, price, image, itinerary }) {
+function TourCard({ id, name, location, price, image, itinerary, content }) {
+    const detailHref = content
+        ? `/tours/${slugify(name)}`
+        : itinerary;
     return (
 
         <div className="overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-lg transition-all h-full flex flex-col">
@@ -166,7 +171,11 @@ function TourCard({ id, name, location, price, image, itinerary }) {
                     <p className='text-xs text-gray-400'>Starting From :</p>
                     <span className="text-lg font-bold text-[#004B67]">{price}</span>
                     </div>
-                    <a target='_blank' href={itinerary} className="w-10 h-10 rounded-full bg-[#004B67] flex items-center justify-center text-white hover:bg-[#003B57] transition-colors flex-shrink-0">
+                    <a
+                        href={detailHref}
+                        {...(content ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                        className="w-10 h-10 rounded-full bg-[#004B67] flex items-center justify-center text-white hover:bg-[#003B57] transition-colors flex-shrink-0"
+                    >
                         <ArrowUpRight className="w-5 h-5" />
                     </a>
                 </div>

@@ -5,6 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Search, MapPin, Calendar, Users, ChevronDown, Filter, Loader, Star, StarHalf } from "lucide-react"
 import axios from "axios"
+import { slugify } from "@/lib/slug"
 
 export default function ToursPageClient({ initialTours, categories }) {
   const [tours, setTours] = useState(initialTours || [])
@@ -409,15 +410,27 @@ function TourCard({ tour }) {
              <p className='text-xs text-gray-400'>Starting From :</p>
             <span className="text-2xl font-bold text-[#03435E]">₹ {tour.price}</span>
           </div>
-          <a href={tour.itinerary} target="_blank" rel="noopener noreferrer">
-            <motion.button
-              className="px-4 py-2 bg-[#03435e] text-white rounded-lg hover:bg-[#03435E] transition-all"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              View Details
-            </motion.button>
-          </a>
+          {tour.content ? (
+            <a href={`/tours/${slugify(tour.title)}`}>
+              <motion.button
+                className="px-4 py-2 bg-[#03435e] text-white rounded-lg hover:bg-[#03435E] transition-all"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                View Details
+              </motion.button>
+            </a>
+          ) : (
+            <a href={tour.itinerary} target="_blank" rel="noopener noreferrer">
+              <motion.button
+                className="px-4 py-2 bg-[#03435e] text-white rounded-lg hover:bg-[#03435E] transition-all"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                View Details
+              </motion.button>
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

@@ -58,10 +58,12 @@ export async function PUT(req, { params }) {
       duration, 
       price, 
       rating, 
-      image, 
-      category, 
-      itinerary, 
-      isTopTour 
+      image,
+      coverImage,
+      category,
+      itinerary,
+      content,
+      isTopTour
     } = body;
 
     // Validate required fields
@@ -82,8 +84,10 @@ export async function PUT(req, { params }) {
         price,
         rating,
         image,
+        coverImage,
         category,
         itinerary,
+        content,
         isTopTour
       },
       { new: true, runValidators: true } // Return the updated document and run schema validators

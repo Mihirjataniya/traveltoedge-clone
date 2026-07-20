@@ -77,7 +77,7 @@ export const InfiniteMovingCards = ({
                 )}
             >
                 {items.map((item) => (
-                    <div key={item.name} className="p-[2px] h-48 md:h-64 rounded-2xl bg-gradient-to-r from-[#03435e] to-[#3c7a89]">
+                    <div key={item.name + Math.random(0,10)} className="p-[2px] h-48 md:h-64 rounded-2xl bg-gradient-to-r from-[#03435e] to-[#3c7a89]">
                         <li
                             className="relative w-[350px] h-full max-w-full shrink-0 rounded-2xl border border-b-0 border-zinc-200 bg-white px-4 md:px-8 py-6 md:w-[450px]"
                             key={item.name}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import RichTextEditor from "@/components/ui/RichTextEditor";
 import {
     Save,
     Upload,
@@ -40,6 +41,8 @@ export default function EditTourForm({ params }) {
     const [success, setSuccess] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
+    const [coverPreview, setCoverPreview] = useState("");
+    const [coverUploading, setCoverUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const TOUR_CATEGORIES = ["Islands", "Mountains", "Adventure", "Beach", "City", 'Cultural']
     // Fetch tour data
@@ -57,6 +60,7 @@ export default function EditTourForm({ params }) {
                 if (data.success) {
                     setFormData(data.data);
                     setImagePreview(data.data.image);
+                    setCoverPreview(data.data.coverImage || "");
                 } else {
                     throw new Error(data.error || "Failed to fetch tour");
                 }
@@ -98,6 +102,23 @@ export default function EditTourForm({ params }) {
             image: resUrl
         }))
         setImageFile(file);
+    };
+
+    const handleCoverChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setCoverUploading(true);
+        try {
+            const url = await uploadImageToCloudinary(file);
+            setFormData((data) => ({ ...data, coverImage: url }));
+            setCoverPreview(url);
+        } catch (err) {
+            console.error("Error uploading cover:", err);
+            setError("Cover image upload failed. Please try again.");
+        } finally {
+            setCoverUploading(false);
+            setUploadProgress(0);
+        }
     };
 
     const uploadImageToCloudinary = async (file) => {
@@ -410,6 +431,49 @@ export default function EditTourForm({ params }) {
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Day 1: Arrival and welcome dinner...&#10;Day 2: Guided tour of main attractions...&#10;Day 3: Free day for exploration..."
                         ></textarea>
+                    </div>
+
+                    {/* Cover Image (16:9) */}
+                    <div>
+                        <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 mb-1">
+                            Cover Image
+                            <span className="text-gray-400 text-xs ml-2 font-normal">
+                                (16:9 aspect ratio required. Banner on the detail page. Falls back to Tour Image if empty.)
+                            </span>
+                        </label>
+                        {coverPreview && (
+                            <div className="relative w-full max-w-md aspect-video mb-3 rounded-md overflow-hidden">
+                                <Image src={coverPreview} alt="Cover preview" fill className="object-cover" />
+                            </div>
+                        )}
+                        <label className="w-full flex justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                            <Upload className="mr-2 h-5 w-5 text-gray-400" />
+                            <span>{coverUploading ? "Uploading..." : coverPreview ? "Change cover image" : "Upload cover image"}</span>
+                            <input
+                                id="coverImage"
+                                name="coverImage"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleCoverChange}
+                                className="sr-only"
+                            />
+                        </label>
+                    </div>
+
+                    {/* Tour Content (rich text) */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                            <FileText size={16} className="mr-1" />
+                            Tour Content
+                            <span className="text-gray-400 text-xs ml-2 font-normal">
+                                (If filled, "View Details" opens the detail page instead of the PDF.)
+                            </span>
+                        </label>
+                        <RichTextEditor
+                            value={formData.content || ""}
+                            onChange={(html) => setFormData((prev) => ({ ...prev, content: html }))}
+                            placeholder="<p>Write the tour details here...</p>"
+                        />
                     </div>
 
                     {/* Submit Button */}

@@ -22,8 +22,10 @@ export async function POST(req) {
       price,
       rating,
       image,
+      coverImage,
       category,
       itinerary,
+      content,
       isTopTour
     } = body;
 
@@ -41,8 +43,10 @@ export async function POST(req) {
       price,
       rating,
       image,
+      coverImage,
       category,
       itinerary,
+      content,
       isTopTour
     });
 
