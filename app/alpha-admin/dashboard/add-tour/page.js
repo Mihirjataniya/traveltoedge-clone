@@ -12,8 +12,9 @@ const AddTourPackage = () => {
         price: "",
         rating: "",
         image: "",
-        coverImage: "",
+        coverImages: [],
         category: "",
+        tourType: "Domestic",
         itinerary: "",
         content: "",
         isTopTour: false,
@@ -21,7 +22,6 @@ const AddTourPackage = () => {
 
     const router = useRouter()
     const [imagePreview, setImagePreview] = useState(null);
-    const [coverPreview, setCoverPreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [coverLoading, setCoverLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
@@ -73,16 +73,10 @@ const AddTourPackage = () => {
         setLoading(false);
     };
 
-    const handleCoverUpload = async (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        setCoverLoading(true);
-
+    const uploadToCloudinary = async (file) => {
         const sigRes = await fetch("/api/alpha-admin/cloudinary/signature", {
             method: "POST",
         });
-
         const { signature, timestamp, cloudName, apiKey } = await sigRes.json();
 
         const fd = new FormData();
@@ -93,19 +87,37 @@ const AddTourPackage = () => {
 
         const uploadRes = await fetch(
             `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-            {
-                method: "POST",
-                body: fd,
-            }
+            { method: "POST", body: fd }
         );
-
         const data = await uploadRes.json();
+        return data.secure_url;
+    };
+
+    const handleCoverUpload = async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+
+        setCoverLoading(true);
+        try {
+            const urls = await Promise.all(files.map(uploadToCloudinary));
+            setFormData((prev) => ({
+                ...prev,
+                coverImages: [...prev.coverImages, ...urls.filter(Boolean)],
+            }));
+        } catch (err) {
+            console.error("Error uploading cover images:", err);
+            alert("Cover image upload failed. Please try again.");
+        } finally {
+            setCoverLoading(false);
+            e.target.value = ""; // allow re-selecting the same file
+        }
+    };
+
+    const removeCoverImage = (index) => {
         setFormData((prev) => ({
             ...prev,
-            coverImage: data.secure_url,
+            coverImages: prev.coverImages.filter((_, i) => i !== index),
         }));
-        setCoverPreview(data.secure_url);
-        setCoverLoading(false);
     };
 
     const handleSubmit = async (e) => {
@@ -217,6 +229,20 @@ const AddTourPackage = () => {
                 </div>
 
                 <div className="space-y-1 md:space-y-2">
+                    <label htmlFor="tourType" className="block font-medium text-sm md:text-base">Tour Type</label>
+                    <select
+                        name="tourType"
+                        value={formData.tourType}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    >
+                        <option value="Domestic">Domestic</option>
+                        <option value="International">International</option>
+                    </select>
+                </div>
+
+                <div className="space-y-1 md:space-y-2">
                     <label htmlFor="itinerary" className="block font-medium text-sm md:text-base">Itinerary (File URL)</label>
                     <input
                         type="text"
@@ -249,11 +275,11 @@ const AddTourPackage = () => {
                     )}
                 </div>
 
-                <div className="space-y-1 md:space-y-2">
+                <div className="space-y-1 md:space-y-2 md:col-span-2">
                     <label htmlFor="coverImage" className="block font-medium text-sm md:text-base">
-                        Cover Image
+                        Cover Images (Carousel)
                         <span className="text-gray-400 text-xs md:text-sm ml-1 block md:inline">
-                            (16:9 aspect ratio required. Shown as the banner on the detail page. Falls back to Tour Image if left empty.)
+                            (16:9 aspect ratio recommended. Shown as the carousel on the detail page. Pick multiple. Falls back to Tour Image if left empty.)
                         </span>
                     </label>
                     <input
@@ -261,16 +287,25 @@ const AddTourPackage = () => {
                         id="coverImage"
                         onChange={handleCoverUpload}
                         accept="image/*"
+                        multiple
                         className="w-full p-2 border rounded text-sm md:text-base"
                     />
-                    {coverLoading && <p className="text-xs text-blue-600">Uploading cover...</p>}
-                    {coverPreview && (
-                        <div className="mt-2 w-full max-w-xs aspect-video">
-                            <img
-                                src={coverPreview}
-                                alt="Cover Preview"
-                                className="w-full h-full object-cover border rounded"
-                            />
+                    {coverLoading && <p className="text-xs text-blue-600">Uploading covers...</p>}
+                    {formData.coverImages.length > 0 && (
+                        <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                            {formData.coverImages.map((url, i) => (
+                                <div key={i} className="relative aspect-video overflow-hidden rounded border">
+                                    <img src={url} alt={`Cover ${i + 1}`} className="h-full w-full object-cover" />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeCoverImage(i)}
+                                        className="absolute right-1 top-1 rounded-full bg-black/60 px-2 text-sm text-white hover:bg-black/80"
+                                        aria-label="Remove image"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     )}
                 </div>

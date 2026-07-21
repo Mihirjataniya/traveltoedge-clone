@@ -23,7 +23,9 @@ export async function POST(req) {
       rating,
       image,
       coverImage,
+      coverImages,
       category,
+      tourType,
       itinerary,
       content,
       isTopTour
@@ -44,7 +46,9 @@ export async function POST(req) {
       rating,
       image,
       coverImage,
+      coverImages,
       category,
+      tourType,
       itinerary,
       content,
       isTopTour

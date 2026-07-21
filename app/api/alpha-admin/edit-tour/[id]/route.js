@@ -60,7 +60,9 @@ export async function PUT(req, { params }) {
       rating, 
       image,
       coverImage,
+      coverImages,
       category,
+      tourType,
       itinerary,
       content,
       isTopTour
@@ -85,7 +87,9 @@ export async function PUT(req, { params }) {
         rating,
         image,
         coverImage,
+        coverImages,
         category,
+        tourType,
         itinerary,
         content,
         isTopTour

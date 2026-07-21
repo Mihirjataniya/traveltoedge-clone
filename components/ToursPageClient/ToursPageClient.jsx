@@ -3,12 +3,13 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Search, MapPin, Calendar, Users, ChevronDown, Filter, Loader, Star, StarHalf } from "lucide-react"
+import { Search, MapPin, Calendar, Users, ChevronDown, Filter, Loader, Star, StarHalf, Bus, Plane } from "lucide-react"
 import axios from "axios"
 import { slugify } from "@/lib/slug"
 
 export default function ToursPageClient({ initialTours, categories }) {
   const [tours, setTours] = useState(initialTours || [])
+  const [tourType, setTourType] = useState("Domestic")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [durationFilter, setDurationFilter] = useState("")
@@ -19,7 +20,7 @@ export default function ToursPageClient({ initialTours, categories }) {
   const [showFilters, setShowFilters] = useState(false)
 
   // Use refs to track previous filter values to prevent redundant API calls
-  const prevFiltersRef = useRef({ searchQuery, selectedCategory, durationFilter, isTopTourOnly })
+  const prevFiltersRef = useRef({ tourType, searchQuery, selectedCategory, durationFilter, isTopTourOnly })
   const searchTimeoutRef = useRef(null)
   const isInitialRender = useRef(true)
 
@@ -41,6 +42,7 @@ export default function ToursPageClient({ initialTours, categories }) {
         params: {
           page: currentPage,
           limit: 6,
+          tourType,
           search: searchQuery,
           category: selectedCategory === "All" ? "" : selectedCategory,
           duration: durationFilter,
@@ -61,7 +63,7 @@ export default function ToursPageClient({ initialTours, categories }) {
     } finally {
       setIsLoading(false)
     }
-  }, [searchQuery, selectedCategory, durationFilter, isTopTourOnly, page])
+  }, [tourType, searchQuery, selectedCategory, durationFilter, isTopTourOnly, page])
 
   // Run only once on initial mount to mark component as ready
   useEffect(() => {
@@ -82,6 +84,7 @@ export default function ToursPageClient({ initialTours, categories }) {
     // Check if filters have actually changed to prevent redundant calls
     const prevFilters = prevFiltersRef.current
     const filtersChanged =
+      prevFilters.tourType !== tourType ||
       prevFilters.searchQuery !== searchQuery ||
       prevFilters.selectedCategory !== selectedCategory ||
       prevFilters.durationFilter !== durationFilter ||
@@ -89,7 +92,7 @@ export default function ToursPageClient({ initialTours, categories }) {
 
     if (filtersChanged) {
       // Update ref with current values
-      prevFiltersRef.current = { searchQuery, selectedCategory, durationFilter, isTopTourOnly }
+      prevFiltersRef.current = { tourType, searchQuery, selectedCategory, durationFilter, isTopTourOnly }
 
       // Debounce filter changes
       searchTimeoutRef.current = setTimeout(() => {
@@ -103,7 +106,7 @@ export default function ToursPageClient({ initialTours, categories }) {
         clearTimeout(searchTimeoutRef.current)
       }
     }
-  }, [searchQuery, selectedCategory, durationFilter, isTopTourOnly, fetchTours])
+  }, [tourType, searchQuery, selectedCategory, durationFilter, isTopTourOnly, fetchTours])
 
   // Separate effect for page changes (load more functionality)
   useEffect(() => {
@@ -116,6 +119,13 @@ export default function ToursPageClient({ initialTours, categories }) {
   const handleCategoryClick = (category) => {
     if (category !== selectedCategory) {
       setSelectedCategory(category)
+    }
+  }
+
+  const handleTourTypeChange = (type) => {
+    if (type !== tourType) {
+      setTourType(type)
+      setSelectedCategory("All")
     }
   }
 
@@ -250,6 +260,23 @@ export default function ToursPageClient({ initialTours, categories }) {
         </motion.div>
       </div>
 
+      {/* Domestic / International tabs */}
+      <div className="max-w-7xl mx-auto mt-8 flex justify-center">
+        <div className="inline-flex rounded-full bg-gray-100 p-1">
+          {["Domestic", "International"].map((type) => (
+            <button
+              key={type}
+              onClick={() => handleTourTypeChange(type)}
+              className={`px-6 py-2 rounded-full text-sm md:text-base font-semibold transition-all ${
+                tourType === type ? "bg-[#03435e] text-white shadow" : "text-gray-600 hover:text-[#03435e]"
+              }`}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Categories */}
       <div className="max-w-7xl mx-auto mt-8">
         <motion.div
@@ -281,7 +308,7 @@ export default function ToursPageClient({ initialTours, categories }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          {selectedCategory === "All" ? "Popular Tours" : `${selectedCategory} Tours`}
+          {selectedCategory === "All" ? `${tourType} Tours` : `${selectedCategory} Tours`}
           {isTopTourOnly && " - Top Rated"}
         </motion.h2>
 
@@ -309,11 +336,31 @@ export default function ToursPageClient({ initialTours, categories }) {
             {tours.length > 0 ? (
               tours.map((tour) => <TourCard key={tour._id} tour={tour} />)
             ) : (
-              <div className="col-span-3 text-center py-8">
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                  <p className="text-xl text-gray-600">No tours found matching your criteria.</p>
+              <div className="col-span-3 flex justify-center py-12">
+                <motion.div
+                  className="flex max-w-md flex-col items-center text-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#03435e]/10 text-[#03435e]">
+                    {tourType === "International" ? (
+                      <Plane className="h-9 w-9" />
+                    ) : (
+                      <Bus className="h-9 w-9" />
+                    )}
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#03435e]">
+                    {tourType === "International"
+                      ? "New horizons on the way ✈️"
+                      : "Fresh journeys coming soon 🚌"}
+                  </h3>
+                  <p className="mt-3 text-gray-600">
+                    We&apos;re crafting handpicked {tourType.toLowerCase()} tours just for you.
+                    Stay tuned — your next adventure is almost here!
+                  </p>
                   <button
-                    className="mt-4 px-6 py-2 bg-[#03435e] text-white rounded-lg hover:bg-blue-700 transition-all"
+                    className="mt-6 px-6 py-2.5 bg-[#03435e] text-white rounded-lg hover:bg-[#02364b] transition-all"
                     onClick={resetFilters}
                   >
                     Reset filters

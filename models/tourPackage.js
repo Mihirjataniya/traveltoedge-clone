@@ -10,9 +10,15 @@ const tourPackagesSchema = new mongoose.Schema(
     rating: { type: Number, default: 0 },
     image: { type: String, required: true },
     coverImage: { type: String },
+    coverImages: { type: [String], default: [] },
     category: {
       type: String,
       enum: ["Islands", "Mountains", "Adventure", "Beach", "City", 'Cultural'],
+    },
+    tourType: {
+      type: String,
+      enum: ["Domestic", "International"],
+      default: "Domestic",
     },
     itinerary: { type: String },
     content: { type: String },

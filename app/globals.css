@@ -177,7 +177,12 @@
 
     /* Base editor styles */
     .tiptap {
-        @apply outline-none w-full min-h-64;
+        @apply outline-none w-full min-h-64 text-gray-700;
+        /* Comfortable reading font at normal weight — Montserrat 500 is too heavy for long body copy */
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        font-size: 0.9375rem; /* 15px */
+        line-height: 1.7;
     }
 
     /* Typography */
@@ -194,7 +199,19 @@
     }
 
     .tiptap p {
-        @apply mb-4 leading-relaxed;
+        @apply mb-4 text-[15px] leading-7 text-gray-700;
+    }
+
+    /* Phone: shrink body copy a touch more */
+    @media screen and (max-width: 640px) {
+        .tiptap {
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.65;
+        }
+
+        .tiptap p {
+            @apply text-[14px] leading-6;
+        }
     }
 
     .tiptap a {

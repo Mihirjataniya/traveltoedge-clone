@@ -16,6 +16,7 @@ export async function GET(request) {
         const category = searchParams.get('category') || '';
         const duration = searchParams.get('duration') || '';
         const isTopTour = searchParams.get('isTopTour') || '';
+        const tourType = searchParams.get('tourType') || '';
 
         const pageNumber = parseInt(page);
         const limitNumber = parseInt(limit);
@@ -57,6 +58,13 @@ export async function GET(request) {
         // Top Tour filter
         if (isTopTour === 'true') {
             filter.isTopTour = true;
+        }
+
+        // Domestic / International filter. Legacy tours without a tourType count as Domestic.
+        if (tourType === 'International') {
+            filter.tourType = 'International';
+        } else if (tourType === 'Domestic') {
+            filter.tourType = { $ne: 'International' };
         }
 
         // Execute query with pagination

@@ -14,6 +14,8 @@ import {
     X,
     Loader2,
     CheckCircle2,
+    ChevronLeft,
+    ChevronRight,
 } from 'lucide-react';
 
 export default function TourDetailPage() {
@@ -66,49 +68,14 @@ export default function TourDetailPage() {
         );
     }
 
+    // Gallery: prefer coverImages[], fall back to single coverImage, then the card image.
+    const gallery = (tour.coverImages?.length
+        ? tour.coverImages
+        : [tour.coverImage || tour.image].filter(Boolean));
+
     return (
         <div className="w-full min-h-screen mt-24 px-6 md:px-10 xl:px-24">
             <div className="mx-auto max-w-5xl py-8">
-                {/* Image + contact float right; text content wraps around then flows full-width below */}
-                <aside className="mb-6 w-full md:float-right md:mb-4 md:ml-10 md:w-[440px]">
-                    {/* Image — fixed 16:9 */}
-                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
-                        <Image
-                            src={tour.coverImage || tour.image || '/placeholder.svg'}
-                            alt={tour.title}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                    </div>
-
-                    {/* Contact card */}
-                    <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
-                        <p className="text-xs text-gray-400">Starting From</p>
-                        <p className="mb-5 text-3xl font-bold text-[#03435e]">₹ {tour.price?.toLocaleString?.() ?? tour.price}</p>
-
-                        <button
-                            onClick={() => setShowEnquiry(true)}
-                            className="mb-3 flex w-full items-center justify-center gap-2 rounded-lg bg-[#03435e] px-4 py-3 font-medium text-white transition-colors hover:bg-[#02364b]"
-                        >
-                            <Send className="h-4 w-4" />
-                            Enquire Now
-                        </button>
-
-                        {tour.itinerary && (
-                            <a
-                                href={tour.itinerary}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#03435e] px-4 py-3 font-medium text-[#03435e] transition-colors hover:bg-gray-50"
-                            >
-                                <Download className="h-4 w-4" />
-                                Download Itinerary
-                            </a>
-                        )}
-                    </div>
-                </aside>
-
                 {/* Title + meta */}
                 <div className="mb-3 flex flex-wrap gap-2">
                     {tour.category && (
@@ -143,7 +110,40 @@ export default function TourDetailPage() {
                     )}
                 </div>
 
-                {/* Content — wraps around the floated aside, then continues full width */}
+                {/* Image carousel — full width, on top */}
+                {gallery.length > 0 && <ImageCarousel images={gallery} title={tour.title} />}
+
+                {/* Price + actions band */}
+                <div className="mt-5 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
+                    <div>
+                        <p className="text-[11px] text-gray-400">Starting From</p>
+                        <p className="text-xl font-bold text-[#03435e] sm:text-2xl">₹ {tour.price?.toLocaleString?.() ?? tour.price}</p>
+                    </div>
+                    <div className="flex flex-col gap-2.5 sm:flex-row">
+                        <button
+                            onClick={() => setShowEnquiry(true)}
+                            className="flex items-center justify-center gap-2 rounded-lg bg-[#03435e] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#02364b]"
+                        >
+                            <Send className="h-4 w-4" />
+                            Enquire Now
+                        </button>
+
+                        {tour.itinerary && (
+                            <a
+                                href={tour.itinerary}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center gap-2 rounded-lg border border-[#03435e] px-4 py-2 text-sm font-medium text-[#03435e] transition-colors hover:bg-gray-50"
+                            >
+                                <Download className="h-4 w-4" />
+                                Download Itinerary
+                            </a>
+                        )}
+                    </div>
+                </div>
+
+                {/* Content — full width below the banner */}
+                <div className="mt-8">
                 {tour.content ? (
                     <div
                         className="tiptap max-w-none !w-auto !overflow-visible"
@@ -152,9 +152,10 @@ export default function TourDetailPage() {
                 ) : (
                     <p className="text-gray-600">Detailed information for this tour is coming soon.</p>
                 )}
+                </div>
 
-                {/* Back link — clear the float */}
-                <div className="clear-both mt-10 border-t border-gray-200 pt-8">
+                {/* Back link */}
+                <div className="mt-10 border-t border-gray-200 pt-8">
                     <Link
                         href="/tours"
                         className="inline-block rounded-md border border-gray-300 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50"
@@ -166,6 +167,83 @@ export default function TourDetailPage() {
 
             {showEnquiry && (
                 <EnquiryModal tour={tour} onClose={() => setShowEnquiry(false)} />
+            )}
+        </div>
+    );
+}
+
+function ImageCarousel({ images, title }) {
+    const [idx, setIdx] = useState(0);
+    const count = images.length;
+    const go = (delta) => setIdx((i) => (i + delta + count) % count);
+
+    return (
+        <div>
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-gray-100">
+                <Image
+                    key={idx}
+                    src={images[idx] || '/placeholder.svg'}
+                    alt={`${title} — image ${idx + 1}`}
+                    fill
+                    className="object-cover"
+                    priority
+                />
+
+                {count > 1 && (
+                    <>
+                        <button
+                            type="button"
+                            onClick={() => go(-1)}
+                            aria-label="Previous image"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white transition-colors hover:bg-black/60"
+                        >
+                            <ChevronLeft className="h-5 w-5" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => go(1)}
+                            aria-label="Next image"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white transition-colors hover:bg-black/60"
+                        >
+                            <ChevronRight className="h-5 w-5" />
+                        </button>
+
+                        <div className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white">
+                            {idx + 1} / {count}
+                        </div>
+
+                        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+                            {images.map((_, i) => (
+                                <button
+                                    key={i}
+                                    type="button"
+                                    onClick={() => setIdx(i)}
+                                    aria-label={`Go to image ${i + 1}`}
+                                    className={`h-2 rounded-full transition-all ${
+                                        i === idx ? 'w-6 bg-white' : 'w-2 bg-white/60 hover:bg-white/90'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+
+            {count > 1 && (
+                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                    {images.map((src, i) => (
+                        <button
+                            key={i}
+                            type="button"
+                            onClick={() => setIdx(i)}
+                            className={`relative aspect-video h-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
+                                i === idx ? 'border-[#03435e]' : 'border-transparent opacity-70 hover:opacity-100'
+                            }`}
+                        >
+                            <Image src={src || '/placeholder.svg'} alt={`${title} thumbnail ${i + 1}`} fill className="object-cover" />
+                        </button>
+                    ))}
+                </div>
             )}
         </div>
     );

@@ -16,8 +16,8 @@ async function getInitialTours() {
   await connectToDatabase();
   
   try {
-    // Initial tours fetch - top rated and all categories
-    const tours = await tourPackage.find({})
+    // Initial tours fetch - Domestic by default (legacy tours without tourType count as Domestic)
+    const tours = await tourPackage.find({ tourType: { $ne: "International" } })
       .sort({ createdAt: -1 })
       .limit(6)
       .lean();

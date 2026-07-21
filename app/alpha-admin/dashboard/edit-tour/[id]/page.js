@@ -30,7 +30,9 @@ export default function EditTourForm({ params }) {
         price: 0,
         rating: 0,
         image: "",
+        coverImages: [],
         category: "",
+        tourType: "Domestic",
         itinerary: "",
         isTopTour: false
     });
@@ -41,7 +43,6 @@ export default function EditTourForm({ params }) {
     const [success, setSuccess] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
-    const [coverPreview, setCoverPreview] = useState("");
     const [coverUploading, setCoverUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const TOUR_CATEGORIES = ["Islands", "Mountains", "Adventure", "Beach", "City", 'Cultural']
@@ -58,9 +59,12 @@ export default function EditTourForm({ params }) {
                 const data = await response.json();
 
                 if (data.success) {
-                    setFormData(data.data);
+                    // Migrate legacy single coverImage into the coverImages array.
+                    const covers = data.data.coverImages?.length
+                        ? data.data.coverImages
+                        : (data.data.coverImage ? [data.data.coverImage] : []);
+                    setFormData({ ...data.data, coverImages: covers, tourType: data.data.tourType || "Domestic" });
                     setImagePreview(data.data.image);
-                    setCoverPreview(data.data.coverImage || "");
                 } else {
                     throw new Error(data.error || "Failed to fetch tour");
                 }
@@ -105,20 +109,30 @@ export default function EditTourForm({ params }) {
     };
 
     const handleCoverChange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
         setCoverUploading(true);
         try {
-            const url = await uploadImageToCloudinary(file);
-            setFormData((data) => ({ ...data, coverImage: url }));
-            setCoverPreview(url);
+            const urls = await Promise.all(files.map(uploadImageToCloudinary));
+            setFormData((data) => ({
+                ...data,
+                coverImages: [...(data.coverImages || []), ...urls.filter(Boolean)],
+            }));
         } catch (err) {
             console.error("Error uploading cover:", err);
             setError("Cover image upload failed. Please try again.");
         } finally {
             setCoverUploading(false);
             setUploadProgress(0);
+            e.target.value = "";
         }
+    };
+
+    const removeCoverImage = (index) => {
+        setFormData((data) => ({
+            ...data,
+            coverImages: (data.coverImages || []).filter((_, i) => i !== index),
+        }));
     };
 
     const uploadImageToCloudinary = async (file) => {
@@ -398,6 +412,24 @@ export default function EditTourForm({ params }) {
                                 </select>
                             </div>
 
+                            {/* Tour Type */}
+                            <div>
+                                <label htmlFor="tourType" className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                                    <Tag size={16} className="mr-1" />
+                                    Tour Type
+                                </label>
+                                <select
+                                    name="tourType"
+                                    value={formData.tourType || "Domestic"}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                >
+                                    <option value="Domestic">Domestic</option>
+                                    <option value="International">International</option>
+                                </select>
+                            </div>
+
                             {/* Top Tour Checkbox */}
                             <div className="flex items-center">
                                 <input
@@ -433,27 +465,40 @@ export default function EditTourForm({ params }) {
                         ></textarea>
                     </div>
 
-                    {/* Cover Image (16:9) */}
+                    {/* Cover Images (carousel, 16:9) */}
                     <div>
                         <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 mb-1">
-                            Cover Image
+                            Cover Images (Carousel)
                             <span className="text-gray-400 text-xs ml-2 font-normal">
-                                (16:9 aspect ratio required. Banner on the detail page. Falls back to Tour Image if empty.)
+                                (16:9 recommended. Shown as the carousel on the detail page. Pick multiple. Falls back to Tour Image if empty.)
                             </span>
                         </label>
-                        {coverPreview && (
-                            <div className="relative w-full max-w-md aspect-video mb-3 rounded-md overflow-hidden">
-                                <Image src={coverPreview} alt="Cover preview" fill className="object-cover" />
+                        {formData.coverImages?.length > 0 && (
+                            <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                                {formData.coverImages.map((url, i) => (
+                                    <div key={i} className="relative aspect-video overflow-hidden rounded-md border">
+                                        <Image src={url} alt={`Cover ${i + 1}`} fill className="object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeCoverImage(i)}
+                                            className="absolute right-1 top-1 rounded-full bg-black/60 px-2 text-sm text-white hover:bg-black/80"
+                                            aria-label="Remove image"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         )}
                         <label className="w-full flex justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
                             <Upload className="mr-2 h-5 w-5 text-gray-400" />
-                            <span>{coverUploading ? "Uploading..." : coverPreview ? "Change cover image" : "Upload cover image"}</span>
+                            <span>{coverUploading ? "Uploading..." : "Add cover images"}</span>
                             <input
                                 id="coverImage"
                                 name="coverImage"
                                 type="file"
                                 accept="image/*"
+                                multiple
                                 onChange={handleCoverChange}
                                 className="sr-only"
                             />
