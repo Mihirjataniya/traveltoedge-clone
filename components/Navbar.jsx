@@ -86,7 +86,9 @@ export default function Navbar() {
         <div className=" flex items-center outline-none justify-between w-full">
           <Link href={'/'}>
            <Image
-            src={isTransparent ? "/LOGO-white.png" : "/LOGO.png"}
+            src={isTransparent
+              ? "https://res.cloudinary.com/dpc5gwlvv/image/upload/q_auto,f_auto/v1784913900/traveltoedge/logo-white.png"
+              : "https://res.cloudinary.com/dpc5gwlvv/image/upload/q_auto,f_auto/v1784913898/traveltoedge/logo.png"}
             alt="Travel To Edge - Explore the World"
             width={120}
             height={50}

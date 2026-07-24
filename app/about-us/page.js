@@ -70,16 +70,16 @@ const page = () => {
                 <div className="md:w-1/2 space-y-6">
                     <h2 className="text-3xl font-bold text-[#03435e]">Why Travel With Us?</h2>
                     <ul className="list-disc list-inside text-[#03435e] leading-7.5 space-y-2">
-                        <li>🎯 Made For You Itineraries
+                        <li>Made For You Itineraries
                             No copy-paste plans here. Every journey is handcrafted to match your mood, pace, and travel dreams - because no two explorers are the same.
                         </li>
-                        <li>🌍We bring world-class travel know-how and blend it with authentic local insights to craft journeys that feel both seamless and soulful. For you deserve the best.
+                        <li>We bring world-class travel know-how and blend it with authentic local insights to craft journeys that feel both seamless and soulful. For you deserve the best.
                         </li>
-                        <li>📞 Whether it’s a sudden plan change, a delayed flight, or a midnight food hunt - we’re with you, every step of the way.
+                        <li>Whether it’s a sudden plan change, a delayed flight, or a midnight food hunt - we’re with you, every step of the way.
                         </li>
-                        <li>💛 We handpick trusted partners, verified stays, and safe routes - so you can travel with peace of mind, no matter where you go.
+                        <li>We handpick trusted partners, verified stays, and safe routes - so you can travel with peace of mind, no matter where you go.
                         </li>
-                        <li>🍽️ We know food is half the joy - so we guide you to hygienic, delicious spots that match your comfort, curiosity, and dietary needs.
+                        <li>We know food is half the joy - so we guide you to hygienic, delicious spots that match your comfort, curiosity, and dietary needs.
                         </li>
         
                     </ul>
@@ -94,15 +94,15 @@ const page = () => {
                         />
                     </div> */}
                     <ul className='list-disc list-inside text-[#03435e] leading-7.5 space-y-2'>
-                    <li>🧴 From sanitized stays to hygienic transfers, we’re obsessed with cleanliness - because comfort begins with care.
+                    <li>From sanitized stays to hygienic transfers, we’re obsessed with cleanliness - because comfort begins with care.
                         .</li>
-                        <li>🧒 Travelling with kids ? We plan with them in mind - smooth schedules, child-safe stays, fun detours, and zero stress.
+                        <li>Travelling with kids ? We plan with them in mind - smooth schedules, child-safe stays, fun detours, and zero stress.
                         .</li>
-                        <li>🏥 Need travel insurance, emergency info, or access to local healthcare? We've got your back - with resources and contacts, just in case.
+                        <li>Need travel insurance, emergency info, or access to local healthcare? We've got your back - with resources and contacts, just in case.
                         </li>
-                        <li>💵 No fine print. No last-minute add-ons. Just honest rates and full-on experiences.
+                        <li>No fine print. No last-minute add-ons. Just honest rates and full-on experiences.
                         </li>
-                        <li>🧭 Flights, hotels, visas, insurance, transfers - we handle it all. You just show up and soak it in.
+                        <li>Flights, hotels, visas, insurance, transfers - we handle it all. You just show up and soak it in.
                         </li>
                     </ul>
                 </div>

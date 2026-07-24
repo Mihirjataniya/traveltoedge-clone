@@ -15,9 +15,6 @@ const montserrat = Montserrat({
 export const metadata = {
   title: "Travel To Edge",
   description: "Travel To Edge turns your travel dreams into reality with curated adventures, personalized tours, and unforgettable journeys across the world.",
-  icons: {
-    icon: "/LOGO.png",
-  }
 };
 
 export default function RootLayout({ children }) {

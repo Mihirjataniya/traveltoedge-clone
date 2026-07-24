@@ -14,25 +14,25 @@ const NewPage1 = () => {
                 <div className="md:col-span-8 flex flex-col gap-4">
                     {/* Hero Section */}
                     <div className="w-full hero-component h-56 sm:h-64 md:h-[400px] xl:h-[400px] rounded-4xl flex flex-col items-center justify-center gap-6 md:gap-10 fade-in-down">
-                        <p className="text-white text-2xl sm:text-3xl lg:text-4xl xl:text-6xl text-shadow-md tracking-wide text-center font-bold">
-                            <div className="flex flex-col items-center">
-                                <div className="flex">
+                        <h1 className="text-white text-2xl sm:text-3xl lg:text-4xl xl:text-6xl text-shadow-md tracking-wide text-center font-bold">
+                            <span className="flex flex-col items-center">
+                                <span className="flex">
                                     {"BEYOND DESTINATIONS,".split("").map((char, i) => (
                                         <span key={`line1-${i}`} className="letter-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
                                             {char === " " ? "\u00A0" : char}
                                         </span>
                                     ))}
-                                </div>
-                                <div className="flex">
+                                </span>
+                                <span className="flex">
                                     {"INTO DISCOVERY".split("").map((char, i) => (
                                         <span key={`line2-${i}`} className="letter-fade-in" style={{ animationDelay: `${(i + 20) * 50}ms` }}>
                                             {char === " " ? "\u00A0" : char}
                                         </span>
                                     ))}
-                                </div>
-                            </div>
+                                </span>
+                            </span>
 
-                        </p>
+                        </h1>
                         <Link
                             href="/contact-us"
                             className="flex items-center justify-between gap-3 sm:gap-4 backdrop-blur-md bg-white/20 text-white border border-white/40 px-4 sm:px-6 md:px-8 rounded-2xl hover:bg-white/30 hover:border-white/60 transition-all duration-300 fade-in-up"
@@ -91,7 +91,7 @@ const NewPage1 = () => {
                                 <div className="flex items-center gap-2">
                                     <div className="h-8 w-8 bg-white flex items-center sm:h-9 sm:w-9 rounded-full overflow-hidden">
                                         <Image
-                                            src="/LOGO.png"
+                                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/q_auto,f_auto/v1784913898/traveltoedge/logo.png"
                                             alt="Profile"
                                             width={36}
                                             height={36}
