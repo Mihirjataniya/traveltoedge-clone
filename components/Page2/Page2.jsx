@@ -48,23 +48,25 @@ const Page2 = () => {
     }, [isInView, mainControls]);
 
     return (
-        <div ref={sectionRef} className=" md:max-h-[800px] max-w-[1800px] mx-auto  flex items-center my-14 md:mt-28 w-full px-6 md:px-10 xl:px-24">
+        <div ref={sectionRef} className="max-w-[1800px] mx-auto flex items-center py-16 md:py-24 w-full px-6 md:px-10 xl:px-24">
             <div className="w-full ">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-10">
 
                     {/* Desktop Image */}
-                    <div className="hidden lg:block relative w-[570px] aspect-[1/1] rounded-3xl overflow-hidden">
+                    <div className="hidden lg:block relative w-full lg:w-[52%] xl:w-[55%] max-w-[860px] aspect-[3/2] rounded-3xl overflow-hidden">
                         <Image
-                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745749672/Group_59_1_t3rsgn.png"
+                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/f_auto,q_auto/v1784968735/traveltoedge/new_creative.png"
                             alt="Mountain vista"
                             fill
-                            className="object-contain w-full h-full"
+                            sizes="(min-width: 1280px) 55vw, 52vw"
+                            priority
+                            className="object-contain object-center w-full h-full"
                         />
                     </div>
 
                     {/* Content */}
                     <motion.div
-                        className="space-y-4 lg:w-1/2 text-[#03435e]"
+                        className="space-y-4 lg:w-[45%] xl:w-[42%] text-[#03435e]"
                         initial="hidden"
                         animate={mainControls}
                         variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5 } } }}
@@ -104,12 +106,18 @@ const Page2 = () => {
                     </motion.div>
 
                     {/* Mobile Image */}
-                    <div className="md:hidden relative w-full max-w-[400px] aspect-[1/1] rounded-3xl overflow-hidden">
+                    {/* overflow-x-clip: the image is scaled up past this box to
+                        crop the PNG's baked-in white margin, and on a full-bleed
+                        container that horizontal spill becomes document-wide
+                        sideways scroll. `clip` (not `hidden`) keeps the vertical
+                        spill visible instead of forcing a scroll container. */}
+                    <div className="lg:hidden relative w-[calc(100%+3rem)] -mx-6 overflow-x-clip sm:w-full sm:mx-0 sm:max-w-[680px] aspect-[3/2]">
                         <Image
-                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/v1745749672/Group_59_1_t3rsgn.png"
+                            src="https://res.cloudinary.com/dpc5gwlvv/image/upload/f_auto,q_auto/v1784968735/traveltoedge/new_creative.png"
                             alt="Mountain vista"
                             fill
-                            className="object-contain object-center w-full h-full"
+                            sizes="(min-width: 640px) 680px, 100vw"
+                            className="object-contain object-center w-full h-full scale-[1.12]"
                         />
 
                     </div>
