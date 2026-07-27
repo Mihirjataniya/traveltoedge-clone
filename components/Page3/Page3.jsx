@@ -150,13 +150,18 @@ function TourCard({ id, name, location, price, image, itinerary, content }) {
         : itinerary;
     return (
 
-        <div className="overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-lg transition-all h-full flex flex-col">
+        <a
+            href={detailHref}
+            {...(content ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+            className="group block overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-lg transition-all h-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#004B67] focus-visible:ring-offset-2"
+        >
+          <div className="flex flex-col h-full">
             <div className="relative h-44 w-full overflow-hidden">
                 <Image
                     src={image || "/placeholder.svg"}
                     alt={name}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
             </div>
@@ -171,16 +176,16 @@ function TourCard({ id, name, location, price, image, itinerary, content }) {
                     <p className='text-xs text-gray-400'>Starting From :</p>
                     <span className="text-lg font-bold text-[#004B67]">{price}</span>
                     </div>
-                    <a
-                        href={detailHref}
-                        {...(content ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                        className="w-10 h-10 rounded-full bg-[#004B67] flex items-center justify-center text-white hover:bg-[#003B57] transition-colors flex-shrink-0"
+                    <span
+                        aria-hidden="true"
+                        className="w-10 h-10 rounded-full bg-[#004B67] flex items-center justify-center text-white group-hover:bg-[#003B57] transition-colors flex-shrink-0"
                     >
                         <ArrowUpRight className="w-5 h-5" />
-                    </a>
+                    </span>
                 </div>
             </div>
-        </div>
+          </div>
+        </a>
 
     )
 }

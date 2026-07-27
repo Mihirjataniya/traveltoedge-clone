@@ -398,9 +398,16 @@ export default function ToursPageClient({ initialTours, categories }) {
 }
 
 function TourCard({ tour }) {
+  const detailHref = tour.content ? `/tours/${slugify(tour.title)}` : tour.itinerary
+  const externalProps = tour.content
+    ? {}
+    : { target: "_blank", rel: "noopener noreferrer" }
+
   return (
-    <motion.div
-      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
+    <motion.a
+      href={detailHref}
+      {...externalProps}
+      className="block bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#03435E] focus-visible:ring-offset-2"
       variants={{
         hidden: { opacity: 0, y: 15 },
         visible: { opacity: 1, y: 0 },
@@ -457,29 +464,14 @@ function TourCard({ tour }) {
              <p className='text-xs text-gray-400'>Starting From :</p>
             <span className="text-2xl font-bold text-[#03435E]">₹ {tour.price}</span>
           </div>
-          {tour.content ? (
-            <a href={`/tours/${slugify(tour.title)}`}>
-              <motion.button
-                className="px-4 py-2 bg-[#03435e] text-white rounded-lg hover:bg-[#03435E] transition-all"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                View Details
-              </motion.button>
-            </a>
-          ) : (
-            <a href={tour.itinerary} target="_blank" rel="noopener noreferrer">
-              <motion.button
-                className="px-4 py-2 bg-[#03435e] text-white rounded-lg hover:bg-[#03435E] transition-all"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                View Details
-              </motion.button>
-            </a>
-          )}
+          <span
+            aria-hidden="true"
+            className="px-4 py-2 bg-[#03435e] text-white rounded-lg transition-all group-hover:bg-[#02364b]"
+          >
+            View Details
+          </span>
         </div>
       </div>
-    </motion.div>
+    </motion.a>
   )
 }
