@@ -5,7 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Search, MapPin, Calendar, Users, ChevronDown, Filter, Loader, Star, StarHalf, Bus, Plane } from "lucide-react"
 import axios from "axios"
-import { slugify } from "@/lib/slug"
+import { tourPath } from "@/lib/slug"
 
 export default function ToursPageClient({ initialTours, categories }) {
   const [tours, setTours] = useState(initialTours || [])
@@ -398,7 +398,7 @@ export default function ToursPageClient({ initialTours, categories }) {
 }
 
 function TourCard({ tour }) {
-  const detailHref = tour.content ? `/tours/${slugify(tour.title)}` : tour.itinerary
+  const detailHref = tour.content ? tourPath(tour) : tour.itinerary
   const externalProps = tour.content
     ? {}
     : { target: "_blank", rel: "noopener noreferrer" }

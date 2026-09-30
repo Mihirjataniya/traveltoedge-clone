@@ -5,7 +5,7 @@ import { MapPin, ArrowUpRight, MoveRight, MoveLeft } from "lucide-react"
 import { motion, useInView, useAnimation } from "framer-motion"
 import Link from 'next/link'
 import axios from 'axios'
-import { slugify } from '@/lib/slug'
+import { tourPath } from '@/lib/slug'
 
 const Page3 = () => {
     const [tourPackages, setTourPackages] = useState([])
@@ -78,6 +78,7 @@ const Page3 = () => {
                                     <TourCard
                                         id={tour._id}
                                         name={tour.title}
+                                        slug={tour.slug}
                                         location={tour.location}
                                         price={`₹ ${tour.price.toLocaleString()}`}
                                         image={tour.image}
@@ -144,9 +145,9 @@ function RevealOnScroll({ children, index }) {
     )
 }
 
-function TourCard({ id, name, location, price, image, itinerary, content }) {
+function TourCard({ id, name, slug, location, price, image, itinerary, content }) {
     const detailHref = content
-        ? `/tours/${slugify(name)}`
+        ? tourPath({ slug, title: name })
         : itinerary;
     return (
 

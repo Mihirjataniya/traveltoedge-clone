@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import RichTextEditor from "@/components/ui/RichTextEditor";
+import TourSeoFields from "@/components/ui/TourSeoFields";
 const AddTourPackage = () => {
     const [formData, setFormData] = useState({
         title: "",
@@ -18,6 +19,9 @@ const AddTourPackage = () => {
         itinerary: "",
         content: "",
         isTopTour: false,
+        slug: "",
+        metaTitle: "",
+        metaDescription: "",
     });
 
     const router = useRouter()
@@ -134,7 +138,7 @@ const AddTourPackage = () => {
             }
         } catch (error) {
             console.error("Error submitting form", error);
-            alert("An error occurred while submitting the form.");
+            alert(error.response?.data?.error || "An error occurred while submitting the form.");
         }
     };
 
@@ -336,6 +340,16 @@ const AddTourPackage = () => {
                         value={formData.content}
                         onChange={(html) => setFormData((prev) => ({ ...prev, content: html }))}
                         placeholder="<p>Write the tour details here...</p>"
+                    />
+                </div>
+
+                <div className="col-span-1 md:col-span-2">
+                    <TourSeoFields
+                        title={formData.title}
+                        slug={formData.slug}
+                        metaTitle={formData.metaTitle}
+                        metaDescription={formData.metaDescription}
+                        onChange={handleChange}
                     />
                 </div>
 

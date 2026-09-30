@@ -23,6 +23,10 @@ const tourPackagesSchema = new mongoose.Schema(
     itinerary: { type: String },
     content: { type: String },
     isTopTour: { type: Boolean, default: false },
+    // SEO (optional; blank = derived from title)
+    slug: { type: String, trim: true, lowercase: true, index: true },
+    metaTitle: { type: String, trim: true },
+    metaDescription: { type: String, trim: true },
   },
   { timestamps: true }
 );

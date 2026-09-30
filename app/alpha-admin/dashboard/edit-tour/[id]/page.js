@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import RichTextEditor from "@/components/ui/RichTextEditor";
+import TourSeoFields from "@/components/ui/TourSeoFields";
 import {
     Save,
     Upload,
@@ -34,7 +35,10 @@ export default function EditTourForm({ params }) {
         category: "",
         tourType: "Domestic",
         itinerary: "",
-        isTopTour: false
+        isTopTour: false,
+        slug: "",
+        metaTitle: "",
+        metaDescription: ""
     });
 
     const [loading, setLoading] = useState(true);
@@ -520,6 +524,14 @@ export default function EditTourForm({ params }) {
                             placeholder="<p>Write the tour details here...</p>"
                         />
                     </div>
+
+                    <TourSeoFields
+                        title={formData.title}
+                        slug={formData.slug}
+                        metaTitle={formData.metaTitle}
+                        metaDescription={formData.metaDescription}
+                        onChange={handleInputChange}
+                    />
 
                     {/* Submit Button */}
                     <div className="flex justify-end">

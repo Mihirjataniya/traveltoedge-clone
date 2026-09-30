@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import tourPackage from "@/models/tourPackage";
 import connectToDatabase from "@/lib/db";
+import { readSeoFields, isSlugTaken } from "@/lib/tourLookup";
 
 // GET handler to fetch a specific tour by ID
 export async function GET(req, { params }) {
@@ -76,10 +77,19 @@ export async function PUT(req, { params }) {
       );
     }
 
+    const seo = readSeoFields(body);
+    if (seo.slug && (await isSlugTaken(seo.slug, tourId))) {
+      return NextResponse.json(
+        { error: `URL slug "${seo.slug}" is already used by another tour` },
+        { status: 409 }
+      );
+    }
+
     // Find the tour and update it
     const updatedTour = await tourPackage.findByIdAndUpdate(
       tourId,
       {
+        ...seo,
         title,
         location,
         duration,

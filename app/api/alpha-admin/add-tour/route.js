@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth"; // adjust path to your authOptions
 import TourPackage from "@/models/tourPackage"; // your mongoose model
 import connectToDatabase from "@/lib/db";
+import { readSeoFields, isSlugTaken } from "@/lib/tourLookup";
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
@@ -38,7 +39,16 @@ export async function POST(req) {
       );
     }
 
+    const seo = readSeoFields(body);
+    if (seo.slug && (await isSlugTaken(seo.slug))) {
+      return NextResponse.json(
+        { error: `URL slug "${seo.slug}" is already used by another tour` },
+        { status: 409 }
+      );
+    }
+
     const newTour = await TourPackage.create({
+      ...seo,
       title,
       location,
       duration,

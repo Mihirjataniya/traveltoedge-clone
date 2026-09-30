@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import TourPackage from "@/models/tourPackage";
 import connectToDatabase from "@/lib/db";
-import { slugToTitleRegex } from "@/lib/slug";
+import { findTourBySlug } from "@/lib/tourLookup";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -15,12 +15,10 @@ export async function GET(request) {
   try {
     await connectToDatabase();
 
-    // Prefer slug (normalized, lowercase, special-char safe); fall back to exact title.
-    const query = slug
-      ? { title: slugToTitleRegex(slug) }
-      : { title: new RegExp(`^${title}$`, "i") };
-
-    const tour = await TourPackage.findOne(query);
+    // Prefer slug (custom slug, then title-derived); fall back to exact title.
+    const tour = slug
+      ? await findTourBySlug(slug)
+      : await TourPackage.findOne({ title: new RegExp(`^${title}$`, "i") });
     if (!tour) {
       return NextResponse.json({ error: "Tour not found" }, { status: 404 });
     }
