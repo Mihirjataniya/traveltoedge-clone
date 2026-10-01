@@ -27,6 +27,7 @@ const tourPackagesSchema = new mongoose.Schema(
     slug: { type: String, trim: true, lowercase: true, index: true },
     metaTitle: { type: String, trim: true },
     metaDescription: { type: String, trim: true },
+    metaKeywords: { type: String, trim: true }, // comma-separated
   },
   { timestamps: true }
 );

@@ -38,7 +38,8 @@ export default function EditTourForm({ params }) {
         isTopTour: false,
         slug: "",
         metaTitle: "",
-        metaDescription: ""
+        metaDescription: "",
+        metaKeywords: ""
     });
 
     const [loading, setLoading] = useState(true);
@@ -530,6 +531,7 @@ export default function EditTourForm({ params }) {
                         slug={formData.slug}
                         metaTitle={formData.metaTitle}
                         metaDescription={formData.metaDescription}
+                        metaKeywords={formData.metaKeywords}
                         onChange={handleInputChange}
                     />
 

@@ -23,6 +23,7 @@ export async function generateMetadata({ params }) {
     return {
       title,
       description,
+      ...(tour.metaKeywords && { keywords: tour.metaKeywords.split(",").map((k) => k.trim()).filter(Boolean) }),
       alternates: { canonical: url },
       openGraph: { title, description, url, images: image ? [image] : [] },
     };

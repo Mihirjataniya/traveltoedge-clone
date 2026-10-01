@@ -22,6 +22,7 @@ const AddTourPackage = () => {
         slug: "",
         metaTitle: "",
         metaDescription: "",
+        metaKeywords: "",
     });
 
     const router = useRouter()
@@ -349,6 +350,7 @@ const AddTourPackage = () => {
                         slug={formData.slug}
                         metaTitle={formData.metaTitle}
                         metaDescription={formData.metaDescription}
+                        metaKeywords={formData.metaKeywords}
                         onChange={handleChange}
                     />
                 </div>

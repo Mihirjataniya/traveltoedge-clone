@@ -7,7 +7,7 @@ const META_DESC_MAX = 160;
 
 // SEO block shared by the add/edit tour admin forms. All fields optional:
 // blank slug -> derived from title, blank meta -> derived from tour details.
-export default function TourSeoFields({ title, slug, metaTitle, metaDescription, onChange }) {
+export default function TourSeoFields({ title, slug, metaTitle, metaDescription, metaKeywords, onChange }) {
     const effectiveSlug = slugify(slug) || slugify(title);
 
     // Normalise the slug when the field loses focus, so what's saved is what's previewed.
@@ -80,6 +80,22 @@ export default function TourSeoFields({ title, slug, metaTitle, metaDescription,
                     onChange={onChange}
                     rows={3}
                     placeholder="Short summary shown under the title in Google results"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                />
+            </div>
+
+            <div className="space-y-1">
+                <label htmlFor="metaKeywords" className="block text-sm font-medium text-gray-700">
+                    Meta Keywords
+                    <span className="text-gray-400 text-xs ml-2 font-normal">(Comma-separated)</span>
+                </label>
+                <input
+                    type="text"
+                    id="metaKeywords"
+                    name="metaKeywords"
+                    value={metaKeywords || ""}
+                    onChange={onChange}
+                    placeholder="e.g. kedarkantha trek, winter trek, uttarakhand"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                 />
             </div>
