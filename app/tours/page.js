@@ -7,8 +7,9 @@ export const revalidate = 900;
 // Get initial tour data for SSR/ISR
 export async function generateMetadata() {
   return {
-    title: 'Explore Our Tours | YourTravelCompany',
-    description: 'Discover amazing tour packages around the world. Find your perfect adventure today!',
+    title: 'Tour Packages – Domestic & International',
+    description: 'Browse Travel To Edge tour packages across India and abroad — treks, beaches, islands, mountains and cultural trips. Find your perfect adventure today!',
+    alternates: { canonical: '/tours' },
   };
 }
 

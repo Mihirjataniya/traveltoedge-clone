@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image";
 import { CalendarIcon, Clock, MapPin } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { blogPath } from "@/lib/slug";
 
 export default function TravelBlog({ initialData, categories: initialCategories }) {
   const [blogs, setBlogs] = useState(initialData?.blogs || []);
-  const router = useRouter()
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState(initialData?.pagination || {
     page: 1,
@@ -181,11 +181,9 @@ export default function TravelBlog({ initialData, categories: initialCategories 
                   <p className="mb-6 text-gray-600">{featuredBlog.excerpt}</p>
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <span className="text-sm font-medium">{featuredBlog.author}</span>
-                    <button onClick={()=>{
-                       router.push(`/blogs/${featuredBlog.title.replace(/\s+/g, "_")}`)
-                    }}  className="rounded-md bg-[#03435E] px-4 py-2 font-medium text-white transition-colors hover:bg-amber-600">
+                    <Link href={blogPath(featuredBlog)} className="rounded-md bg-[#03435E] px-4 py-2 font-medium text-white transition-colors hover:bg-amber-600">
                       Read More
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -239,11 +237,9 @@ export default function TravelBlog({ initialData, categories: initialCategories 
                 </p>
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <span className="text-xs font-medium">{blog.author || 'Anonymous'}</span>
-                  <button onClick={()=>{
-                     router.push(`/blogs/${blog.title.replace(/\s+/g, "_")}`)
-                  }} className="text-sm font-bold text-[#03435E] underline">
+                  <Link href={blogPath(blog)} className="text-sm font-bold text-[#03435E] underline">
                     Read More
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

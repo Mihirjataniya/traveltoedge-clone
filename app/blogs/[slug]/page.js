@@ -1,109 +1,113 @@
-'use client';
-import { useEffect, useState } from 'react';
+import { cache } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import {
-    CalendarIcon,
-    Clock,
-    MapPin,
-    Share2,
-    Facebook,
-    Twitter,
-    Bookmark,
-    ChevronLeft,
-    ChevronRight,
-    Mail,
-} from 'lucide-react'; import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton, WhatsappIcon } from 'react-share';
-import { FacebookIcon, TwitterIcon, LinkedinIcon } from 'react-share';
-import Head from 'next/head';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { CalendarIcon, Clock, MapPin, ChevronLeft, ChevronRight, Mail } from 'lucide-react';
+import connectToDatabase from '@/lib/db';
+import { findBlogBySlug } from '@/lib/seoLookup';
+import { blogPath, safeDecode } from '@/lib/slug';
+import { SITE_URL, SITE_NAME } from '@/lib/site';
+import JsonLd from '@/components/JsonLd';
+import BlogShare from '@/components/BlogDetail/BlogShare';
 
-export default function BlogPost() {
-    const { slug } = useParams();
-    const [blog, setBlog] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const url = `https:/traveltoedge.com/blogs/${slug}`;
-    useEffect(() => {
-        const fetchBlog = async () => {
-            try {
-                if (!slug) return;
+// Always read the latest post so admin edits show immediately.
+export const dynamic = 'force-dynamic';
 
-                const title = decodeURIComponent(slug).replace(/_/g, ' ');
+// Shared by generateMetadata and the page so the DB is hit once per request.
+const getBlog = cache(async (slug) => {
+    await connectToDatabase();
+    return findBlogBySlug(slug);
+});
 
-                const response = await fetch(`/api/get-blogs/find?title=${encodeURIComponent(title)}`);
+const describe = (blog) => blog.metaDescription || blog.excerpt;
 
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch blog: ${response.statusText}`);
-                }
+// Old/non-canonical URL (former slug, legacy title URL after a custom slug was set) -> 301.
+function redirectIfNotCanonical(slug, blog) {
+    const path = blogPath(blog);
+    if (safeDecode(slug) !== safeDecode(path.slice('/blogs/'.length))) permanentRedirect(path);
+}
 
-                const data = await response.json();
-                setBlog(data);
-            } catch (error) {
-                console.error('Error fetching blog:', error);
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+export async function generateMetadata({ params }) {
+    const { slug } = await params;
+    const blog = await getBlog(slug);
+    if (!blog) return { title: 'Article not found', robots: { index: false } };
+    redirectIfNotCanonical(slug, blog);
 
-        fetchBlog();
-    }, [slug]);
+    // Admin meta title is used verbatim; otherwise the root "%s | Travel To Edge" template applies.
+    const title = blog.metaTitle ? { absolute: blog.metaTitle } : blog.title;
+    const description = describe(blog);
+    const path = blogPath(blog);
+    const keywords = blog.metaKeywords?.split(',').map((k) => k.trim()).filter(Boolean);
 
-    if (loading) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
-                    <p className="mt-4 text-lg font-medium text-[#03435e]">Loading article...</p>
-                </div>
-            </div>
-        );
-    }
+    return {
+        title,
+        description,
+        ...(keywords?.length && { keywords }),
+        authors: blog.author ? [{ name: blog.author }] : undefined,
+        alternates: { canonical: path },
+        openGraph: {
+            title: blog.metaTitle || blog.title,
+            description,
+            url: path,
+            type: 'article',
+            siteName: SITE_NAME,
+            publishedTime: blog.date ? new Date(blog.date).toISOString() : undefined,
+            modifiedTime: blog.updatedAt ? new Date(blog.updatedAt).toISOString() : undefined,
+            authors: blog.author ? [blog.author] : undefined,
+            images: blog.image ? [{ url: blog.image, alt: blog.imageAlt || blog.title }] : undefined,
+        },
+        twitter: { card: 'summary_large_image', title: blog.metaTitle || blog.title, description },
+    };
+}
 
-    if (error) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <h2 className="mb-4 text-2xl font-bold text-red-600">Something went wrong</h2>
-                    <p className="text-[#03435e]">{error}</p>
-                    <Link href="/blogs" className="mt-6 inline-block rounded-md bg-blue-600 px-6 py-2 text-white">
-                        Return to all blogs
-                    </Link>
-                </div>
-            </div>
-        );
-    }
+export default async function BlogPost({ params }) {
+    const { slug } = await params;
+    const blog = await getBlog(slug);
+    if (!blog) notFound();
+    redirectIfNotCanonical(slug, blog);
 
-    if (!blog) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <h2 className="mb-4 text-2xl font-bold">Blog not found</h2>
-                    <p className="text-[#03435e]">The blog you're looking for doesn't exist or has been removed.</p>
-                    <Link href="/blogs" className="mt-6 inline-block rounded-md bg-blue-600 px-6 py-2 text-white">
-                        Browse all blogs
-                    </Link>
-                </div>
-            </div>
-        );
-    }
+    const url = `${SITE_URL}${blogPath(blog)}`;
+    const published = blog.date ? new Date(blog.date) : null;
+
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: blog.title,
+            description: describe(blog),
+            image: blog.image ? [blog.image] : undefined,
+            url,
+            mainEntityOfPage: url,
+            datePublished: published?.toISOString(),
+            dateModified: new Date(blog.updatedAt || blog.date || Date.now()).toISOString(),
+            author: { '@type': 'Person', name: blog.author || SITE_NAME },
+            publisher: {
+                '@type': 'Organization',
+                name: SITE_NAME,
+                logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.png` },
+            },
+            ...(blog.metaKeywords && { keywords: blog.metaKeywords }),
+            ...(blog.category && { articleSection: blog.category }),
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+                { '@type': 'ListItem', position: 2, name: 'Blogs', item: `${SITE_URL}/blogs` },
+                { '@type': 'ListItem', position: 3, name: blog.title, item: url },
+            ],
+        },
+    ];
+
     return (
         <div className="w-full min-h-screen mt-24 px-6 md:px-10 xl:px-24">
-            <Head>
-                {/* Twitter Card Meta Tags */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:site" content="@YourTwitterHandle" />
-                <meta name="twitter:title" content={blog.title} />
-                <meta name="twitter:description" content={blog.excerpt || blog.content.slice(0, 150)} />
-                <meta name="twitter:image" content={blog.image || "/placeholder.svg"} />
-                <meta name="twitter:creator" content="@YourTwitterHandle" />
-            </Head>
+            <JsonLd data={structuredData} />
 
             <div className="relative h-[50vh] w-full overflow-hidden md:h-[70vh]">
                 <Image
                     src={blog.image || "/placeholder.svg"}
-                    alt={blog.title}
+                    alt={blog.imageAlt || blog.title}
                     fill
                     className="object-cover"
                     priority
@@ -116,10 +120,14 @@ export default function BlogPost() {
                         </span>
                         <h1 className="mb-4 text-3xl font-bold leading-tight md:text-5xl">{blog.title}</h1>
                         <div className="flex flex-wrap items-center gap-4 text-sm text-white/80 md:gap-6">
-                            <div className="flex items-center gap-2">
-                                <CalendarIcon className="h-4 w-4" />
-                                <span>{blog.date}</span>
-                            </div>
+                            {published && (
+                                <div className="flex items-center gap-2">
+                                    <CalendarIcon className="h-4 w-4" />
+                                    <time dateTime={published.toISOString()}>
+                                        {published.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                    </time>
+                                </div>
+                            )}
                             <div className="flex items-center gap-2">
                                 <Clock className="h-4 w-4" />
                                 <span>{blog.readTime}</span>
@@ -136,31 +144,24 @@ export default function BlogPost() {
             </div>
 
             <div className="container mx-auto max-w-6xl px-4 py-8">
+                {/* Breadcrumb */}
+                <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500">
+                    <Link href="/" className="hover:text-[#03435e]">Home</Link>
+                    <span className="mx-2">›</span>
+                    <Link href="/blogs" className="hover:text-[#03435e]">Blogs</Link>
+                    <span className="mx-2">›</span>
+                    <span className="text-gray-700">{blog.title}</span>
+                </nav>
+
                 {/* Author and share section */}
                 <div className="mb-8 flex flex-col justify-between gap-4 border-b border-gray-200 pb-8 md:flex-row md:items-center">
                     <div className="flex items-center gap-4">
                         <div>
                             <p className="font-medium">Written by</p>
-                            <h3 className="text-lg font-bold">{blog.author}</h3>
+                            <p className="text-lg font-bold">{blog.author}</p>
                         </div>
                     </div>
-                    <div className='flex items-center gap-3'>
-                        <span className="text-sm text-gray-500">Share:</span>
-                        <div className="flex items-center gap-3">
-                            <FacebookShareButton url={url}>
-                                <FacebookIcon size={32} round />
-                            </FacebookShareButton>
-                            <TwitterShareButton url={url}>
-                                <TwitterIcon size={32} round />
-                            </TwitterShareButton>
-                            <LinkedinShareButton url={url}>
-                                <LinkedinIcon size={32} round />
-                            </LinkedinShareButton>
-                            <WhatsappShareButton url={url}>
-                                <WhatsappIcon size={32} round />
-                            </WhatsappShareButton>
-                        </div>
-                    </div>
+                    <BlogShare url={url} />
                 </div>
 
                 {/* Main content */}
@@ -172,34 +173,13 @@ export default function BlogPost() {
                             dangerouslySetInnerHTML={{ __html: blog.content }}
                         />
                     )}
-
-                    {/* Additional content sections would be rendered based on blog data */}
-                    {blog.sections && blog.sections.map((section, index) => (
-                        <div key={index}>
-                            <h2 className="mb-4 mt-8 text-2xl font-bold">{section.title}</h2>
-                            {section.image && (
-                                <div className="my-6 aspect-video overflow-hidden rounded-xl">
-                                    <Image
-                                        src={section.image}
-                                        alt={section.title}
-                                        width={800}
-                                        height={450}
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
-                            )}
-                            {section.content && section.content.map((paragraph, pIndex) => (
-                                <p key={pIndex} className="my-6">{paragraph}</p>
-                            ))}
-                        </div>
-                    ))}
                 </div>
 
                 {/* Newsletter signup */}
                 <div className="my-12 rounded-xl bg-[#03435e] p-8 text-white">
                     <div className="flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
                         <div className="md:flex-1">
-                            <h3 className="mb-2 text-2xl font-bold">Subscribe to our Travel Newsletter</h3>
+                            <h2 className="mb-2 text-2xl font-bold">Subscribe to our Travel Newsletter</h2>
                             <p className="text-amber-100">
                                 Get weekly updates on hidden destinations, travel tips, and exclusive content delivered straight to your
                                 inbox.
@@ -210,6 +190,7 @@ export default function BlogPost() {
                                 <input
                                     type="email"
                                     placeholder="Your email address"
+                                    aria-label="Your email address"
                                     className="w-full rounded-md px-4 py-3 text-gray-500 placeholder-gray-500 outline-none border-2 sm:w-64"
                                 />
                                 <button className="flex items-center justify-center gap-2 rounded-md bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800">
@@ -221,42 +202,6 @@ export default function BlogPost() {
                         </div>
                     </div>
                 </div>
-
-                {/* Related posts */}
-                {blog.relatedPosts && blog.relatedPosts.length > 0 && (
-                    <div className="my-12">
-                        <h2 className="mb-6 text-2xl font-bold">You might also enjoy</h2>
-                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-                            {blog.relatedPosts.map((post) => (
-                                <div
-                                    key={post.id}
-                                    className="overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-lg"
-                                >
-                                    <div className="relative aspect-video overflow-hidden">
-                                        <Image
-                                            src={post.image || "/placeholder.svg"}
-                                            alt={post.title}
-                                            fill
-                                            className="object-cover transition-transform duration-300 hover:scale-105"
-                                        />
-                                        <span className="absolute left-3 top-3 rounded-full text-[#03435e] px-2 py-1 text-xs font-semibold bg-white">
-                                            {post.category}
-                                        </span>
-                                    </div>
-                                    <div className="p-4">
-                                        <h3 className="line-clamp-2 text-lg font-bold">{post.title}</h3>
-                                        <Link
-                                            href={`/blog/${post.title.replace(/\s+/g, "_")}`}
-                                            className="mt-2 inline-block text-sm font-bold underline text-[#03435e] hover:text-amber-600"
-                                        >
-                                            Read article
-                                        </Link>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
 
                 {/* Navigation */}
                 <div className="my-8 flex items-center justify-between border-t border-gray-200 pt-8">

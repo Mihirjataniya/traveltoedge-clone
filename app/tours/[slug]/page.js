@@ -1,81 +1,123 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { cache } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import axios from 'axios';
-import {
-    MapPin,
-    Calendar,
-    Star,
-    StarHalf,
-    Download,
-    Send,
-    X,
-    Loader2,
-    CheckCircle2,
-    ChevronLeft,
-    ChevronRight,
-} from 'lucide-react';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { MapPin, Calendar, Star, StarHalf, Download } from 'lucide-react';
+import connectToDatabase from '@/lib/db';
+import { findTourBySlug } from '@/lib/seoLookup';
+import { tourPath, safeDecode } from '@/lib/slug';
+import { SITE_URL, SITE_NAME } from '@/lib/site';
+import JsonLd from '@/components/JsonLd';
+import TourGallery from '@/components/TourDetail/TourGallery';
+import TourEnquiry from '@/components/TourDetail/TourEnquiry';
 
-export default function TourDetailPage() {
-    const { slug } = useParams();
-    const [tour, setTour] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [showEnquiry, setShowEnquiry] = useState(false);
+// Always read the latest tour so admin edits show immediately.
+export const dynamic = 'force-dynamic';
 
-    useEffect(() => {
-        const fetchTour = async () => {
-            try {
-                if (!slug) return;
-                const res = await fetch(`/api/get-tours/find?slug=${encodeURIComponent(slug)}`);
-                if (!res.ok) throw new Error('Failed to load tour');
-                const data = await res.json();
-                setTour(data);
-            } catch (err) {
-                console.error('Error fetching tour:', err);
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchTour();
-    }, [slug]);
+// Shared by generateMetadata and the page so the DB is hit once per request.
+const getTour = cache(async (slug) => {
+    await connectToDatabase();
+    return findTourBySlug(slug);
+});
 
-    if (loading) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-[#03435e]"></div>
-                    <p className="mt-4 text-lg font-medium text-[#03435e]">Loading tour...</p>
-                </div>
-            </div>
-        );
-    }
+const describe = (tour) =>
+    tour.metaDescription ||
+    `${tour.title.trim()} – ${String(tour.duration).trim()} tour in ${String(tour.location).trim()}, starting from ₹${tour.price}. Book with ${SITE_NAME}.`;
 
-    if (error || !tour) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <h2 className="mb-4 text-2xl font-bold text-[#03435e]">Tour not found</h2>
-                    <p className="text-gray-600">The tour you're looking for doesn't exist or has been removed.</p>
-                    <Link href="/tours" className="mt-6 inline-block rounded-md bg-[#03435e] px-6 py-2 text-white">
-                        Browse all tours
-                    </Link>
-                </div>
-            </div>
-        );
-    }
+// Old/non-canonical URL (former slug, title-derived after a custom slug was set) -> 301.
+function redirectIfNotCanonical(slug, tour) {
+    const path = tourPath(tour);
+    if (safeDecode(slug) !== path.slice('/tours/'.length)) permanentRedirect(path);
+}
 
-    // Gallery: prefer coverImages[], fall back to single coverImage, then the card image.
-    const gallery = (tour.coverImages?.length
-        ? tour.coverImages
-        : [tour.coverImage || tour.image].filter(Boolean));
+const galleryOf = (tour) =>
+    tour.coverImages?.length ? tour.coverImages : [tour.coverImage || tour.image].filter(Boolean);
+
+export async function generateMetadata({ params }) {
+    const { slug } = await params;
+    const tour = await getTour(slug);
+    if (!tour) return { title: 'Tour not found', robots: { index: false } };
+    redirectIfNotCanonical(slug, tour);
+
+    // Admin meta title is used verbatim; otherwise the root "%s | Travel To Edge" template applies.
+    const title = tour.metaTitle ? { absolute: tour.metaTitle } : tour.title;
+    const description = describe(tour);
+    const path = tourPath(tour);
+    const image = galleryOf(tour)[0];
+    const keywords = tour.metaKeywords?.split(',').map((k) => k.trim()).filter(Boolean);
+
+    return {
+        title,
+        description,
+        ...(keywords?.length && { keywords }),
+        alternates: { canonical: path },
+        openGraph: {
+            title: tour.metaTitle || tour.title,
+            description,
+            url: path,
+            type: 'website',
+            siteName: SITE_NAME,
+            images: image ? [{ url: image, alt: tour.imageAlt || tour.title }] : undefined,
+        },
+        twitter: { card: 'summary_large_image', title: tour.metaTitle || tour.title, description },
+    };
+}
+
+export default async function TourDetailPage({ params }) {
+    const { slug } = await params;
+    const tour = await getTour(slug);
+    if (!tour) notFound();
+
+    redirectIfNotCanonical(slug, tour);
+
+    const path = tourPath(tour);
+    const gallery = galleryOf(tour);
+    const alt = tour.imageAlt || tour.title;
+    const url = `${SITE_URL}${path}`;
+
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': ['TouristTrip', 'Product'],
+            name: tour.title,
+            description: describe(tour),
+            image: gallery,
+            url,
+            brand: { '@type': 'Brand', name: SITE_NAME },
+            ...(tour.category && { category: tour.category }),
+            ...(tour.location && { itinerary: { '@type': 'Place', name: tour.location } }),
+            provider: { '@type': 'TravelAgency', name: SITE_NAME, url: SITE_URL },
+            offers: {
+                '@type': 'Offer',
+                price: tour.price,
+                priceCurrency: 'INR',
+                availability: 'https://schema.org/InStock',
+                url,
+            },
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+                { '@type': 'ListItem', position: 2, name: 'Tours', item: `${SITE_URL}/tours` },
+                { '@type': 'ListItem', position: 3, name: tour.title, item: url },
+            ],
+        },
+    ];
 
     return (
         <div className="w-full min-h-screen mt-24 px-6 md:px-10 xl:px-24">
+            <JsonLd data={structuredData} />
             <div className="mx-auto max-w-5xl py-8">
+                {/* Breadcrumb */}
+                <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500">
+                    <Link href="/" className="hover:text-[#03435e]">Home</Link>
+                    <span className="mx-2">›</span>
+                    <Link href="/tours" className="hover:text-[#03435e]">Tours</Link>
+                    <span className="mx-2">›</span>
+                    <span className="text-gray-700">{tour.title}</span>
+                </nav>
+
                 {/* Title + meta */}
                 <div className="mb-3 flex flex-wrap gap-2">
                     {tour.category && (
@@ -111,7 +153,7 @@ export default function TourDetailPage() {
                 </div>
 
                 {/* Image carousel — full width, on top */}
-                {gallery.length > 0 && <ImageCarousel images={gallery} title={tour.title} />}
+                {gallery.length > 0 && <TourGallery images={gallery} alt={alt} />}
 
                 {/* Price + actions band */}
                 <div className="mt-5 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
@@ -120,13 +162,7 @@ export default function TourDetailPage() {
                         <p className="text-xl font-bold text-[#03435e] sm:text-2xl">₹ {tour.price?.toLocaleString?.() ?? tour.price}</p>
                     </div>
                     <div className="flex flex-col gap-2.5 sm:flex-row">
-                        <button
-                            onClick={() => setShowEnquiry(true)}
-                            className="flex items-center justify-center gap-2 rounded-lg bg-[#03435e] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#02364b]"
-                        >
-                            <Send className="h-4 w-4" />
-                            Enquire Now
-                        </button>
+                        <TourEnquiry tourTitle={tour.title} />
 
                         {tour.itinerary && (
                             <a
@@ -163,225 +199,6 @@ export default function TourDetailPage() {
                         ← All tours
                     </Link>
                 </div>
-            </div>
-
-            {showEnquiry && (
-                <EnquiryModal tour={tour} onClose={() => setShowEnquiry(false)} />
-            )}
-        </div>
-    );
-}
-
-function ImageCarousel({ images, title }) {
-    const [idx, setIdx] = useState(0);
-    const count = images.length;
-    const go = (delta) => setIdx((i) => (i + delta + count) % count);
-
-    return (
-        <div>
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-gray-100">
-                <Image
-                    key={idx}
-                    src={images[idx] || '/placeholder.svg'}
-                    alt={`${title} — image ${idx + 1}`}
-                    fill
-                    className="object-cover"
-                    priority
-                />
-
-                {count > 1 && (
-                    <>
-                        <button
-                            type="button"
-                            onClick={() => go(-1)}
-                            aria-label="Previous image"
-                            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white transition-colors hover:bg-black/60"
-                        >
-                            <ChevronLeft className="h-5 w-5" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => go(1)}
-                            aria-label="Next image"
-                            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white transition-colors hover:bg-black/60"
-                        >
-                            <ChevronRight className="h-5 w-5" />
-                        </button>
-
-                        <div className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white">
-                            {idx + 1} / {count}
-                        </div>
-
-                        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
-                            {images.map((_, i) => (
-                                <button
-                                    key={i}
-                                    type="button"
-                                    onClick={() => setIdx(i)}
-                                    aria-label={`Go to image ${i + 1}`}
-                                    className={`h-2 rounded-full transition-all ${
-                                        i === idx ? 'w-6 bg-white' : 'w-2 bg-white/60 hover:bg-white/90'
-                                    }`}
-                                />
-                            ))}
-                        </div>
-                    </>
-                )}
-            </div>
-
-            {count > 1 && (
-                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-                    {images.map((src, i) => (
-                        <button
-                            key={i}
-                            type="button"
-                            onClick={() => setIdx(i)}
-                            className={`relative aspect-video h-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
-                                i === idx ? 'border-[#03435e]' : 'border-transparent opacity-70 hover:opacity-100'
-                            }`}
-                        >
-                            <Image src={src || '/placeholder.svg'} alt={`${title} thumbnail ${i + 1}`} fill className="object-cover" />
-                        </button>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-}
-
-function EnquiryModal({ tour, onClose }) {
-    const [form, setForm] = useState({ name: '', phone: '', email: '' });
-    const [errors, setErrors] = useState({});
-    const [submitting, setSubmitting] = useState(false);
-    const [done, setDone] = useState(false);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-        setErrors((prev) => ({ ...prev, [name]: '' }));
-    };
-
-    const validate = () => {
-        const errs = {};
-        if (!form.name.trim()) errs.name = 'Name is required';
-        if (!/^[0-9+\-\s]{7,15}$/.test(form.phone.trim())) errs.phone = 'Enter a valid phone number';
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errs.email = 'Enter a valid email';
-        setErrors(errs);
-        return Object.keys(errs).length === 0;
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validate()) return;
-        setSubmitting(true);
-        try {
-            const res = await axios.post('/api/form', {
-                name: form.name.trim(),
-                phone: form.phone.trim(),
-                email: form.email.trim(),
-                destination: tour.title,
-                // Model requires these; not asked in the minimal tour enquiry form.
-                date: 'Not specified',
-                travellers: 'Not specified',
-            });
-            if (res.data.success) {
-                setDone(true);
-            } else {
-                alert('Something went wrong. Please try again.');
-            }
-        } catch (err) {
-            console.error('Enquiry submit error:', err);
-            alert('Something went wrong. Please try again.');
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    return (
-        <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-            onClick={onClose}
-        >
-            <div
-                className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div className="mb-4 flex items-start justify-between">
-                    <div>
-                        <h3 className="text-xl font-bold text-[#03435e]">Enquire About This Tour</h3>
-                        <p className="mt-1 text-sm text-gray-500">{tour.title}</p>
-                    </div>
-                    <button onClick={onClose} className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700">
-                        <X className="h-5 w-5" />
-                    </button>
-                </div>
-
-                {done ? (
-                    <div className="py-8 text-center">
-                        <CheckCircle2 className="mx-auto h-14 w-14 text-green-500" />
-                        <p className="mt-4 text-lg font-semibold text-[#03435e]">Enquiry sent!</p>
-                        <p className="mt-1 text-sm text-gray-500">Our team will reach out to you shortly.</p>
-                        <button
-                            onClick={onClose}
-                            className="mt-6 rounded-lg bg-[#03435e] px-6 py-2 font-medium text-white hover:bg-[#02364b]"
-                        >
-                            Close
-                        </button>
-                    </div>
-                ) : (
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">Name</label>
-                            <input
-                                name="name"
-                                value={form.name}
-                                onChange={handleChange}
-                                placeholder="Your full name"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-[#03435e] focus:ring-1 focus:ring-[#03435e]"
-                            />
-                            {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
-                        </div>
-                        <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">Phone</label>
-                            <input
-                                name="phone"
-                                value={form.phone}
-                                onChange={handleChange}
-                                placeholder="e.g. +91 98765 43210"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-[#03435e] focus:ring-1 focus:ring-[#03435e]"
-                            />
-                            {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
-                        </div>
-                        <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">Email</label>
-                            <input
-                                name="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                placeholder="you@example.com"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-[#03435e] focus:ring-1 focus:ring-[#03435e]"
-                            />
-                            {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={submitting}
-                            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#03435e] px-4 py-3 font-medium text-white transition-colors hover:bg-[#02364b] disabled:opacity-60"
-                        >
-                            {submitting ? (
-                                <>
-                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                    Sending...
-                                </>
-                            ) : (
-                                <>
-                                    <Send className="h-4 w-4" />
-                                    Submit Enquiry
-                                </>
-                            )}
-                        </button>
-                    </form>
-                )}
             </div>
         </div>
     );

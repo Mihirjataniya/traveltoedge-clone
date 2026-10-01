@@ -14,6 +14,8 @@ import Blockquote from "@tiptap/extension-blockquote";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import TextAlign from "@tiptap/extension-text-align";
 import axios from "axios";
+import SeoFields from "@/components/ui/SeoFields";
+import { legacyBlogSegment } from "@/lib/slug";
 import { AlignCenter, AlignLeft, AlignRight, ImageDown, Link2, List, ListOrdered, MessageSquareQuote, Underline } from "lucide-react";
 
 const BLOG_CATEGORIES = [
@@ -26,16 +28,23 @@ const BLOG_CATEGORIES = [
     "Beach"
 ];
 
+const EMPTY_FORM = {
+    title: "",
+    excerpt: "",
+    readTime: "",
+    category: "",
+    location: "",
+    author: "",
+    image: "",
+    slug: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    imageAlt: "",
+};
+
 const AddBlogPost = () => {
-    const [form, setForm] = useState({
-        title: "",
-        excerpt: "",
-        readTime: "",
-        category: "",
-        location: "",
-        author: "",
-        image: ""
-    });
+    const [form, setForm] = useState(EMPTY_FORM);
     const [mainImagePreview, setMainImagePreview] = useState(null);
     const [mainImageFile, setMainImageFile] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -162,7 +171,7 @@ const AddBlogPost = () => {
             if (res.data.success) {
                 alert("Blog published successfully!");
                 // Reset form
-                setForm({ title: "", excerpt: "", readTime: "", category: "", location: "", author: "", image: "" });
+                setForm(EMPTY_FORM);
                 setMainImagePreview(null);
                 setMainImageFile(null);
                 editor.commands.setContent("<p>Start writing your blog post...</p>");
@@ -171,7 +180,7 @@ const AddBlogPost = () => {
             }
         } catch (err) {
             console.error(err);
-            alert("Error submitting blog");
+            alert(err.response?.data?.error || "Error submitting blog");
         } finally {
             setSubmitLoading(false);
         }
@@ -471,11 +480,19 @@ const AddBlogPost = () => {
                     </div>
                 </div>
 
+                <SeoFields
+                    title={form.title}
+                    values={form}
+                    onChange={handleChange}
+                    pathPrefix="/blogs/"
+                    fallbackSlug={legacyBlogSegment(form.title)}
+                />
+
                 <div className="flex justify-end space-x-4 mt-8">
                     <button
                         type="button"
                         onClick={() => {
-                            setForm({ title: "", excerpt: "", readTime: "", category: "", location: "", author: "", image: "" });
+                            setForm(EMPTY_FORM);
                             setMainImagePreview(null);
                             setMainImageFile(null);
                             editor.commands.setContent("<p>Start writing your blog post...</p>");

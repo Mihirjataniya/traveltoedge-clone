@@ -28,6 +28,9 @@ const tourPackagesSchema = new mongoose.Schema(
     metaTitle: { type: String, trim: true },
     metaDescription: { type: String, trim: true },
     metaKeywords: { type: String, trim: true }, // comma-separated
+    imageAlt: { type: String, trim: true },
+    // Former URL slugs; requests to these 301 to the current URL.
+    previousSlugs: { type: [String], default: [], index: true },
   },
   { timestamps: true }
 );

@@ -14,7 +14,15 @@ const blogSchema = new mongoose.Schema({
   image: { type: String, required: true },
   author: { type: String, required: true },
   content: { type: String, required: true },
-});
+  // SEO (optional; blank = derived from title/excerpt)
+  slug: { type: String, trim: true, lowercase: true, index: true },
+  metaTitle: { type: String, trim: true },
+  metaDescription: { type: String, trim: true },
+  metaKeywords: { type: String, trim: true }, // comma-separated
+  imageAlt: { type: String, trim: true },
+  // Former URL slugs; requests to these 301 to the current URL.
+  previousSlugs: { type: [String], default: [], index: true },
+}, { timestamps: true });
 
 
 export default mongoose.models.Blog || mongoose.model("Blog", blogSchema);

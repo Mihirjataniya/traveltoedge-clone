@@ -8,8 +8,9 @@ export const revalidate = 900;
 // Generate metadata for the page
 export async function generateMetadata() {
   return {
-    title: 'Travel Blog | Explore Our Adventures',
+    title: 'Travel Blog – Stories & Destination Guides',
     description: 'Read about our latest travel adventures, tips, and destinations around the world.',
+    alternates: { canonical: '/blogs' },
   };
 }
 

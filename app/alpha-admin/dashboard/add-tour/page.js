@@ -4,7 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import RichTextEditor from "@/components/ui/RichTextEditor";
-import TourSeoFields from "@/components/ui/TourSeoFields";
+import SeoFields from "@/components/ui/SeoFields";
+import { slugify } from "@/lib/slug";
 const AddTourPackage = () => {
     const [formData, setFormData] = useState({
         title: "",
@@ -23,6 +24,7 @@ const AddTourPackage = () => {
         metaTitle: "",
         metaDescription: "",
         metaKeywords: "",
+        imageAlt: "",
     });
 
     const router = useRouter()
@@ -345,13 +347,12 @@ const AddTourPackage = () => {
                 </div>
 
                 <div className="col-span-1 md:col-span-2">
-                    <TourSeoFields
+                    <SeoFields
                         title={formData.title}
-                        slug={formData.slug}
-                        metaTitle={formData.metaTitle}
-                        metaDescription={formData.metaDescription}
-                        metaKeywords={formData.metaKeywords}
+                        values={formData}
                         onChange={handleChange}
+                        pathPrefix="/tours/"
+                        fallbackSlug={slugify(formData.title)}
                     />
                 </div>
 

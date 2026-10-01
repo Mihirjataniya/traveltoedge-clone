@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Blog from "@/models/blog"; 
 import connectToDatabase from "@/lib/db";
+import { readSeoFields, isBlogSlugTaken, nextPreviousSlugs } from "@/lib/seoLookup";
 
 export async function GET(req) {
   try {
@@ -60,15 +61,27 @@ export async function PUT(req) {
       );
     }
     
+    const seo = readSeoFields(data);
+    if (seo.slug && (await isBlogSlugTaken(seo.slug, blogId))) {
+      return NextResponse.json(
+        { error: `URL slug "${seo.slug}" is already used by another blog` },
+        { status: 409 }
+      );
+    }
+
     const updatedBlog = await Blog.findByIdAndUpdate(
       blogId,
       {
         title: data.title,
         content: data.content,
         excerpt: data.excerpt,
-        tags: data.tags,
-        imageUrl: data.imageUrl,
-        updatedAt: new Date()
+        readTime: data.readTime,
+        category: data.category,
+        location: data.location,
+        image: data.image,
+        author: data.author,
+        ...seo,
+        previousSlugs: nextPreviousSlugs(blog, seo.slug, data.title),
       },
       { new: true, runValidators: true }
     );

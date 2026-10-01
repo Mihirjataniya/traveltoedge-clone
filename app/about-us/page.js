@@ -1,3 +1,10 @@
+export const metadata = {
+  title: "About Us",
+  description:
+    "Meet Travel To Edge — a Delhi-based travel company crafting curated domestic and international trips, treks and personalised holidays.",
+  alternates: { canonical: "/about-us" },
+};
+
 import React from 'react'
 import "./AboutUs.css";
 import Image from 'next/image';

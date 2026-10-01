@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import RichTextEditor from "@/components/ui/RichTextEditor";
-import TourSeoFields from "@/components/ui/TourSeoFields";
+import SeoFields from "@/components/ui/SeoFields";
+import { slugify } from "@/lib/slug";
 import {
     Save,
     Upload,
@@ -39,7 +40,8 @@ export default function EditTourForm({ params }) {
         slug: "",
         metaTitle: "",
         metaDescription: "",
-        metaKeywords: ""
+        metaKeywords: "",
+        imageAlt: ""
     });
 
     const [loading, setLoading] = useState(true);
@@ -526,13 +528,12 @@ export default function EditTourForm({ params }) {
                         />
                     </div>
 
-                    <TourSeoFields
+                    <SeoFields
                         title={formData.title}
-                        slug={formData.slug}
-                        metaTitle={formData.metaTitle}
-                        metaDescription={formData.metaDescription}
-                        metaKeywords={formData.metaKeywords}
+                        values={formData}
                         onChange={handleInputChange}
+                        pathPrefix="/tours/"
+                        fallbackSlug={slugify(formData.title)}
                     />
 
                     {/* Submit Button */}

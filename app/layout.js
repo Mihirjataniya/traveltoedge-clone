@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google";
 import Loading from "@/components/Loading";
 import Script from 'next/script';
 import TravelChatbot from "@/components/Chatbot";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, DEFAULT_OG_IMAGE } from "@/lib/site";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -13,13 +14,23 @@ const montserrat = Montserrat({
 });
 
 export const metadata = {
-  title: "Travel To Edge",
-  description: "Travel To Edge turns your travel dreams into reality with curated adventures, personalized tours, and unforgettable journeys across the world.",
+  metadataBase: new URL(SITE_URL),
+  // Pages set a plain title ("Tours") and get "Tours | Travel To Edge".
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_IN",
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
+  },
+  twitter: { card: "summary_large_image", images: [DEFAULT_OG_IMAGE] },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <head>
         <meta name="google-site-verification" content="s-fqZXZzhxCboLfhN4WNtXWKmt5I-6zzS5GC3DaQdPo" />
         <Script

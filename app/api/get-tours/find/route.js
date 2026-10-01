@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import TourPackage from "@/models/tourPackage";
 import connectToDatabase from "@/lib/db";
-import { findTourBySlug } from "@/lib/tourLookup";
+import { findTourBySlug } from "@/lib/seoLookup";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);

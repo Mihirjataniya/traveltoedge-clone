@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import tourPackage from "@/models/tourPackage";
 import connectToDatabase from "@/lib/db";
-import { readSeoFields, isSlugTaken } from "@/lib/tourLookup";
+import { readSeoFields, isSlugTaken, nextPreviousSlugs } from "@/lib/seoLookup";
 
 // GET handler to fetch a specific tour by ID
 export async function GET(req, { params }) {
@@ -85,11 +85,17 @@ export async function PUT(req, { params }) {
       );
     }
 
+    const existing = await tourPackage.findById(tourId).select("title slug previousSlugs").lean();
+    if (!existing) {
+      return NextResponse.json({ error: "Tour not found" }, { status: 404 });
+    }
+
     // Find the tour and update it
     const updatedTour = await tourPackage.findByIdAndUpdate(
       tourId,
       {
         ...seo,
+        previousSlugs: nextPreviousSlugs(existing, seo.slug, title),
         title,
         location,
         duration,

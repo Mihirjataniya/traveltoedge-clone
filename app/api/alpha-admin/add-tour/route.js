@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth"; // adjust path to your authOptions
 import TourPackage from "@/models/tourPackage"; // your mongoose model
 import connectToDatabase from "@/lib/db";
-import { readSeoFields, isSlugTaken } from "@/lib/tourLookup";
+import { readSeoFields, isSlugTaken } from "@/lib/seoLookup";
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);

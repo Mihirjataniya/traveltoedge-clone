@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Blog from "@/models/blog";
 import connectToDatabase from "@/lib/db";
+import { readSeoFields, isBlogSlugTaken } from "@/lib/seoLookup";
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
@@ -27,7 +28,16 @@ export async function POST(req) {
       );
     }
 
+    const seo = readSeoFields(body);
+    if (seo.slug && (await isBlogSlugTaken(seo.slug))) {
+      return NextResponse.json(
+        { error: `URL slug "${seo.slug}" is already used by another blog` },
+        { status: 409 }
+      );
+    }
+
     const newBlog = await Blog.create({
+      ...seo,
       title,
       excerpt,
       readTime,

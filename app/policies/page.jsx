@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Privacy Policy & Terms",
+  description: "Travel To Edge privacy policy, booking terms and cancellation policies.",
+  alternates: { canonical: "/policies" },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white mt-24">

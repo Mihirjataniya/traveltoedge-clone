@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Upload, Loader2 } from 'lucide-react';
+import SeoFields from '@/components/ui/SeoFields';
+import { legacyBlogSegment } from '@/lib/slug';
 
 export default function EditBlogForm({ params }) {
   const router = useRouter();
@@ -22,7 +24,12 @@ export default function EditBlogForm({ params }) {
     location: '',
     image: '',
     author: '',
-    content: ''
+    content: '',
+    slug: '',
+    metaTitle: '',
+    metaDescription: '',
+    metaKeywords: '',
+    imageAlt: ''
   });
 
   // Fetch the blog data when component mounts
@@ -315,7 +322,17 @@ export default function EditBlogForm({ params }) {
               />
             </div>
           </div>
-          
+
+          <div className="mt-6">
+            <SeoFields
+              title={formData.title}
+              values={formData}
+              onChange={handleChange}
+              pathPrefix="/blogs/"
+              fallbackSlug={legacyBlogSegment(formData.title)}
+            />
+          </div>
+
           <div className="mt-8 flex justify-end">
             <button
               type="button"
